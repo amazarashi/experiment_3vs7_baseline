@@ -23,7 +23,7 @@ xp = cuda.cupy
 
 class Trainer(object):
 
-    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=64,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
+    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=32,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
         self.model = model
         self.optimizer = optimizer
         self.dataset = dataset
