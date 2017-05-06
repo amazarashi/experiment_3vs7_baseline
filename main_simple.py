@@ -33,8 +33,7 @@ if __name__ == '__main__':
     #dataset = amaz_cifar10_dl.Cifar10().loader()
     elseIndices = [0,1,2]
     category_num = 10 - len(elseIndices)
-    print(category_num)
-    model = darknet19.Darknet19(category_num=9)
+    model = darknet19.Darknet19(category_num=category_num)
     optimizer = amaz_optimizer.OptimizerDarknet(model,lr=0.04,epoch=300,batch=args.pop("batch"))
     dataaugumentation = amaz_augumentationCustom.Normalize224
     args['model'] = model
