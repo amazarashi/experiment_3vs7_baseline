@@ -76,15 +76,19 @@ class Trainer(object):
 
     def init_dataset(self):
         elseIndices = self.elseIndices
-        train_x = []
-        train_y = []
-        test_x = []
-        test_y = []
-        else_train_x = []
-        else_train_y = []
-        else_test_x = []
-        else_test_y = []
+        category_num = 10 - len(elseIndices)
+        train_x = np.zeros((5000*category_num,3,32,32),dtype=np.float32)
+        train_y = np.zeros((5000*category_num,),dtype=np.int32)
+        test_x = np.zeros((5000*category_num,3,32,32),dtype=np.float32)
+        test_y = np.zeros((5000*category_num,),dtype=np.int32)
+        else_train_x = np.zeros((5000*len(elseIndices),3,32,32),dtype=np.float32)
+        else_train_y = np.zeros((5000*len(elseIndices),),dtype=np.int32)
+        else_test_x = np.zeros((5000*len(elseIndices),3,32,32),dtype=np.float32)
+        else_test_y = np.zeros((5000*len(elseIndices),),dtype=np.int32)
         meta = self.dataset["meta"]
+        target_i = 0
+        else_i = 0
+        pernum = 5000
         for ind in range(len(meta)):
             category = meta[ind]
             categorical_data = self.dataset[category]
@@ -92,25 +96,30 @@ class Trainer(object):
             test_data = categorical_data["test"]
             print(type(train_data))
             if ind in elseIndices:
-                else_train_x.extend(train_data)
-                else_train_y += list(range(len(train_data)))
-                else_test_x.extend(test_data)
-                else_test_y += list(range(len(test_data)))
+                start = else_i * pernum
+                end = start + pernum
+                else_train_x[start:end] = train_data
+                else_train_y[start:end] = np.zeros(pernum,dtype=np.int32) + else_i
+                else_test_x[start:end] = test_data
+                else_test_y[start:end] = np.zeros(pernum,dtype=np.int32) + else_i
+                else_i += 1
             else:
-                train_x.extend(train_data)
-                train_y += list(range(len(train_data)))
-                test_x.extend(test_data)
-                test_y += list(range(len(test_data)))
-        print(type())
-        return (np.array(train_x),
-                np.array(train_y),
-                np.array(test_x),
-                np.array(test_y),
-                np.array(else_train_x),
-                np.array(else_train_y),
-                np.array(else_test_x),
-                np.array(else_test_y),
-                np.array(meta))
+                start = target_i * pernum
+                end = start + pernum
+                train_x[start:end] = train_data
+                train_y[start:end] = np.zeros(pernum,dtype=np.int32) + target_i
+                test_x[start:end] = test_data
+                test_y[start:end] = np.zeros(pernum,dtype=np.int32) + target_i
+                target_i += 1
+        return (train_x,
+                train_y,
+                test_x,
+                test_y,
+                else_train_x,
+                else_train_y,
+                else_test_x,
+                else_test_y,
+                meta)
 
     def train_one(self,epoch):
         model = self.model
