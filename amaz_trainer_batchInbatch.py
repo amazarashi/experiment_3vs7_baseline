@@ -174,10 +174,10 @@ class Trainer(object):
             del loss,x,t
 
         ## LOGGING ME
-        print("test mean loss : ",sum_loss/self.test_len)
-        self.logger.test_loss(epoch,sum_loss/self.test_len)
-        print("test mean accuracy : ", sum_accuracy/self.test_len)
-        self.logger.accuracy(epoch,sum_accuracy/self.test_len)
+        print("test mean loss : ",sum_loss/len(self.test_x))
+        self.logger.test_loss(epoch,sum_loss/len(self.test_x))
+        print("test mean accuracy : ", sum_accuracy/len(self.test_x))
+        self.logger.accuracy(epoch,sum_accuracy/len(self.test_x))
         print("######################")
 
     def run(self):
