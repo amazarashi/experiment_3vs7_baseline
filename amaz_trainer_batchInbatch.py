@@ -156,7 +156,7 @@ class Trainer(object):
         sum_accuracy = 0
         batch_in_batch_size = self.batchinbatch
 
-        progress = self.utility.create_progressbar(int(self.test_len),desc='test',stride=batch)
+        progress = self.utility.create_progressbar(int(test_x),desc='test',stride=batch)
         for i in progress:
             x = test_x[i:i+batch]
             t = test_y[i:i+batch]
