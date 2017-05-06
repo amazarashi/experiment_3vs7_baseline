@@ -40,6 +40,5 @@ if __name__ == '__main__':
     args['dataset'] = dataset
     args['dataaugumentation'] = dataaugumentation
     args['elseIndices'] = elseIndices
-    print(args.keys())
     main = amaz_trainer_batchInbatch.Trainer(**args)
     main.run()
