@@ -28,7 +28,6 @@ class Trainer(object):
         self.optimizer = optimizer
         self.dataset = dataset
         self.epoch = epoch
-        print(batch)
         self.batch = batch
         self.elseIndices = elseIndices
         self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
