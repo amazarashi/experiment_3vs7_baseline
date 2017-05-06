@@ -29,8 +29,9 @@ if __name__ == '__main__':
     lr = args.pop('lr')
     epoch = args.pop('epoch')
 
-    dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
-    elseIndices = [7,8,9]
+    #dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
+    dataset = amaz_cifar10_dl.Cifar10().loader()
+    elseIndices = []
     category_num = 10 - len(elseIndices)
     print(category_num)
     model = darknet19.Darknet19(category_num=category_num)

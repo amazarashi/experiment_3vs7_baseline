@@ -30,7 +30,8 @@ class Trainer(object):
         self.epoch = epoch
         self.batch = batch
         self.elseIndices = elseIndices
-        self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
+        self.train_x,self.train_y,self.test_x,self.test_y,self.meta = self.init_dataset()
+        #self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
         self.gpu = gpu
         self.check_gpu_status = self.check_gpu(self.gpu)
         self.xp = self.check_cupy(self.gpu)
@@ -66,47 +67,55 @@ class Trainer(object):
         self.check_gpu(self.gpu)
 
     def init_dataset(self):
-        elseIndices = self.elseIndices
-        train_x = []
-        train_y = []
-        test_x = []
-        test_y = []
-        else_train_x = []
-        else_train_y = []
-        else_test_x = []
-        else_test_y = []
+        train_x = self.dataset["train_x"]
+        train_y = self.dataset["train_y"]
+        test_x = self.dataset["test_x"]
+        test_y = self.dataset["test_y"]
         meta = self.dataset["meta"]
-        for ind in range(len(meta)):
-            category = meta[ind]
-            categorical_data = self.dataset[category]
-            train_data = categorical_data["train"]
-            test_data = categorical_data["test"]
-            print("category:",category)
-            print("train:",len(train_data))
-            print("test:",len(test_data))
-            if ind in elseIndices:
-                else_train_x.extend(train_data)
-                else_train_y += list(range(len(train_data)))
-                else_test_x.extend(test_data)
-                else_test_y += list(range(len(test_data)))
-            else:
-                train_x.extend(train_data)
-                train_y += list(range(len(train_data)))
-                test_x.extend(test_data)
-                test_y += list(range(len(test_data)))
-        print(len(train_x))
-        print(len(train_y))
-        print(len(test_x))
-        print(len(test_y))
-        return (np.array(train_x),
-                np.array(train_y),
-                np.array(test_x),
-                np.array(test_y),
-                np.array(else_train_x),
-                np.array(else_train_y),
-                np.array(else_test_x),
-                np.array(else_test_y),
-                np.array(meta))
+        return (train_x,train_y,test_x,test_y,meta)
+
+    # def init_dataset(self):
+    #     elseIndices = self.elseIndices
+    #     train_x = []
+    #     train_y = []
+    #     test_x = []
+    #     test_y = []
+    #     else_train_x = []
+    #     else_train_y = []
+    #     else_test_x = []
+    #     else_test_y = []
+    #     meta = self.dataset["meta"]
+    #     for ind in range(len(meta)):
+    #         category = meta[ind]
+    #         categorical_data = self.dataset[category]
+    #         train_data = categorical_data["train"]
+    #         test_data = categorical_data["test"]
+    #         print("category:",category)
+    #         print("train:",len(train_data))
+    #         print("test:",len(test_data))
+    #         if ind in elseIndices:
+    #             else_train_x.extend(train_data)
+    #             else_train_y += list(range(len(train_data)))
+    #             else_test_x.extend(test_data)
+    #             else_test_y += list(range(len(test_data)))
+    #         else:
+    #             train_x.extend(train_data)
+    #             train_y += list(range(len(train_data)))
+    #             test_x.extend(test_data)
+    #             test_y += list(range(len(test_data)))
+    #     print(len(train_x))
+    #     print(len(train_y))
+    #     print(len(test_x))
+    #     print(len(test_y))
+    #     return (np.array(train_x),
+    #             np.array(train_y),
+    #             np.array(test_x),
+    #             np.array(test_y),
+    #             np.array(else_train_x),
+    #             np.array(else_train_y),
+    #             np.array(else_test_x),
+    #             np.array(else_test_y),
+    #             np.array(meta))
 
     def train_one(self,epoch):
         model = self.model
