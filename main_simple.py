@@ -29,7 +29,6 @@ if __name__ == '__main__':
     lr = args.pop('lr')
     epoch = args.pop('epoch')
 
-    imagenet = amaz_imagenet.ImageNet()
     dataset = amaz_cifar10_dl.categorical_loader()
     elseIndices = [0,1,2]
     category_num = 10 - len(elseIndices)
