@@ -88,7 +88,8 @@ class Trainer(object):
         meta = self.dataset["meta"]
         target_i = 0
         else_i = 0
-        pernum = 5000
+        pernum_train = 5000
+        pernum_test = 1000
         for ind in range(len(meta)):
             category = meta[ind]
             categorical_data = self.dataset[category]
@@ -96,20 +97,24 @@ class Trainer(object):
             test_data = categorical_data["test"]
             print(type(train_data))
             if ind in elseIndices:
-                start = else_i * pernum
-                end = start + pernum
-                else_train_x[start:end] = train_data
-                else_train_y[start:end] = np.zeros(pernum,dtype=np.int32) + else_i
-                else_test_x[start:end] = test_data
-                else_test_y[start:end] = np.zeros(pernum,dtype=np.int32) + else_i
+                start_train = else_i * pernum_train
+                end_train = start + pernum_train
+                start_test = else_i * pernum_test
+                end_test = start + pernum_test
+                else_train_x[start_train:end_train] = train_data
+                else_train_y[start_train:end_train] = np.zeros(pernum_train,dtype=np.int32) + else_i
+                else_test_x[start_test:end_test] = test_data
+                else_test_y[start_test:end_test] = np.zeros(pernum_test,dtype=np.int32) + else_i
                 else_i += 1
             else:
-                start = target_i * pernum
-                end = start + pernum
-                train_x[start:end] = train_data
-                train_y[start:end] = np.zeros(pernum,dtype=np.int32) + target_i
-                test_x[start:end] = test_data
-                test_y[start:end] = np.zeros(pernum,dtype=np.int32) + target_i
+                start_train = target_i * pernum_train
+                end_train = start + pernum_train
+                start_test = target_i * pernum_test
+                end_test = start + pernum_test
+                train_x[start_train:end_train] = train_data
+                train_y[start_train:end_train] = np.zeros(pernum_train,dtype=np.int32) + target_i
+                test_x[start_test:end_test] = test_data
+                test_y[start_test:end_test] = np.zeros(pernum_test,dtype=np.int32) + target_i
                 target_i += 1
         return (train_x,
                 train_y,
