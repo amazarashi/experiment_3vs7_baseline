@@ -134,7 +134,7 @@ class Trainer(object):
 
                 y = model(x,train=True)
                 loss = model.calc_loss(y,t) / train_batch_devide
-                print(i,ii,loss)
+                print(i,ii,loss.data)
                 loss.backward()
                 loss.to_cpu()
                 # print("loss",loss.data)
