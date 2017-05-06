@@ -94,6 +94,10 @@ class Trainer(object):
                 train_y += list(range(len(train_data)))
                 test_x.extend(test_data)
                 test_y += list(range(len(test_data)))
+        print(len(train_x))
+        print(len(train_y))
+        print(len(test_x))
+        print(len(test_y))
         return (np.array(train_x),
                 np.array(train_y),
                 np.array(test_x),
