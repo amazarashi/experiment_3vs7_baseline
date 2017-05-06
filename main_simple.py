@@ -12,12 +12,12 @@ if __name__ == '__main__':
     parser.add_argument('--epoch', '-e', type=int,
                         default=60,
                         help='maximum epoch')
-    parser.add_argument('--batch', '-b', type=int,
-                        default=64,
-                        help='mini batch number')
     parser.add_argument('--batchinbatch', '-bb', type=int,
                         default=16,
                         help='batch in batch number')
+    parser.add_argument('--batch', '-b', type=int,
+                        default=64,
+                        help='mini batch number')
     parser.add_argument('--gpu', '-g', type=int,
                         default=-1,
                         help='-1 means cpu, put gpu id here')
