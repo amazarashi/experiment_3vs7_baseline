@@ -85,7 +85,7 @@ class Trainer(object):
         else_test_x = []
         else_test_y = []
         meta = self.dataset["meta"]
-        for i,ind in range(len(meta)):
+        for ind in range(len(meta)):
             category = meta[ind]
             categorical_data = self.dataset[category]
             train_data = categorical_data["train"]
@@ -101,6 +101,7 @@ class Trainer(object):
                 train_y += list(range(len(train_data)))
                 test_x.extend(test_data)
                 test_y += list(range(len(test_data)))
+        print(type())
         return (np.array(train_x),
                 np.array(train_y),
                 np.array(test_x),
