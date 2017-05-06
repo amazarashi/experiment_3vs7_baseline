@@ -79,12 +79,12 @@ class Trainer(object):
         category_num = 10 - len(elseIndices)
         train_x = np.zeros((5000*category_num,3,32,32),dtype=np.float32)
         train_y = np.zeros((5000*category_num,),dtype=np.int32)
-        test_x = np.zeros((5000*category_num,3,32,32),dtype=np.float32)
-        test_y = np.zeros((5000*category_num,),dtype=np.int32)
+        test_x = np.zeros((1000*category_num,3,32,32),dtype=np.float32)
+        test_y = np.zeros((1000*category_num,),dtype=np.int32)
         else_train_x = np.zeros((5000*len(elseIndices),3,32,32),dtype=np.float32)
         else_train_y = np.zeros((5000*len(elseIndices),),dtype=np.int32)
-        else_test_x = np.zeros((5000*len(elseIndices),3,32,32),dtype=np.float32)
-        else_test_y = np.zeros((5000*len(elseIndices),),dtype=np.int32)
+        else_test_x = np.zeros((1000*len(elseIndices),3,32,32),dtype=np.float32)
+        else_test_y = np.zeros((1000*len(elseIndices),),dtype=np.int32)
         meta = self.dataset["meta"]
         target_i = 0
         else_i = 0
