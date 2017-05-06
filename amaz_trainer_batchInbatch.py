@@ -108,6 +108,8 @@ class Trainer(object):
         meta = self.meta
         train_x = self.train_x
         train_y = self.train_y
+        print(len(train_x))
+        print(len(train_y))
 
         sum_loss = 0
         total_data_length = len(train_x)
