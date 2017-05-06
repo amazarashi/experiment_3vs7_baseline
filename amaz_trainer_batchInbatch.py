@@ -111,6 +111,7 @@ class Trainer(object):
 
         sum_loss = 0
         total_data_length = len(train_x)
+        batch_in_batch_size = self.batch_in_batch_size
         train_batch_devide = batch/batch_in_batch_size
 
         progress = self.utility.create_progressbar(int(total_data_length/batch),desc='train',stride=1)
