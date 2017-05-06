@@ -82,16 +82,24 @@ class Trainer(object):
             train_data = categorical_data["train"]
             test_data = categorical_data["test"]
             if ind in elseIndices:
-                else_train_x += train_data
+                else_train_x.extend(train_data)
                 else_train_y += list(range(len(train_data)))
-                else_test_x += test_data
+                else_test_x.extend(test_data)
                 else_test_y += list(range(len(test_data)))
             else:
-                train_x += train_data
+                train_x.extend(train_data)
                 train_y += list(range(len(train_data)))
-                test_x += test_data
+                test_x.extend(test_data)
                 test_y += list(range(len(test_data)))
-        return (train_x,train_y,test_x,test_y,else_train_x,else_train_y,else_test_x,else_test_y,meta)
+        return (np.array(train_x),
+                np.array(train_y),
+                np.array(test_x),
+                np.array(test_y),
+                np.array(else_train_x),
+                np.array(else_train_y),
+                np.array(else_test_x),
+                np.array(else_test_y),
+                np.array(meta))
 
     def train_one(self,epoch):
         model = self.model
