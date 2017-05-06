@@ -30,7 +30,7 @@ if __name__ == '__main__':
     epoch = args.pop('epoch')
 
     dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
-    elseIndices = [0,1,2]
+    elseIndices = [7,8,9]
     category_num = 10 - len(elseIndices)
     print(category_num)
     model = darknet19.Darknet19(category_num=category_num)
