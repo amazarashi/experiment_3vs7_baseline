@@ -122,6 +122,11 @@ class Trainer(object):
         batch_in_batch_size = self.batchinbatch
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
+            print(indices)
+            print(len(indices))
+            print("#####")
+            print("#####")
+            print("#####")
             x = train_x[indices]
             t = train_y[indices]
 
@@ -140,7 +145,7 @@ class Trainer(object):
             sum_loss += loss.data * len(indices)
             del loss,x,t
             optimizer.update()
-            
+
         # for i,indices in zip(progress,train_data_yeilder):
         #     model.cleargrads()
         #     for ii in six.moves.range(0, len(indices), batch_in_batch_size):
