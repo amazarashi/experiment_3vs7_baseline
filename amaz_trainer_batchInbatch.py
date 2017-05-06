@@ -23,7 +23,7 @@ xp = cuda.cupy
 
 class Trainer(object):
 
-    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=128,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
+    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=64,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
         self.model = model
         self.optimizer = optimizer
         self.dataset = dataset
@@ -134,16 +134,13 @@ class Trainer(object):
 
                 y = model(x,train=True)
                 loss = model.calc_loss(y,t) / train_batch_devide
+                print(loss.shape)
                 loss.backward()
                 loss.to_cpu()
                 # print("loss",loss.data)
                 # print("batch_in_batch_size",batch_in_batch_size)
-                print(batch)
-                print(batch_in_batch_size)
-                print(train_batch_devide)
-                print(loss.data)
-                print(total_data_length)
                 sum_loss += loss.data * d_length
+                print(sum_loss)
                 del loss,x,t
             optimizer.update()
 
