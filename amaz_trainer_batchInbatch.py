@@ -28,6 +28,7 @@ class Trainer(object):
         self.optimizer = optimizer
         self.dataset = dataset
         self.epoch = epoch
+        print(batch)
         self.batch = batch
         self.elseIndices = elseIndices
         self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
@@ -130,10 +131,7 @@ class Trainer(object):
             x = train_x[indices]
             t = train_y[indices]
 
-            DaX = []
-            for img in x:
-                da_x = self.dataaugumentation.train(img)
-                DaX.append(da_x)
+            DaX = [self.dataaugumentation.train(img) for img in x]
 
             x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
             t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
