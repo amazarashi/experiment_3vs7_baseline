@@ -76,7 +76,7 @@ class Trainer(object):
         else_test_x = []
         else_test_y = []
         meta = self.dataset["meta"]
-        for ind in meta:
+        for ind in range(len(meta)):
             category = meta[ind]
             categorical_data = self.dataset[category]
             train_data = categorical_data["train"]

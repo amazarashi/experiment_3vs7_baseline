@@ -116,7 +116,7 @@ class Cifar10(object):
         meta = data["meta"]
 
         category_base_data = {}
-        for ind in len(meta):
+        for ind in range(len(meta)):
             category = meta[ind]
             target_train_y_index = np.where(train_y == ind)
             target_train_x = train_x[target_train_y_index]
@@ -140,5 +140,5 @@ class Cifar10(object):
         else:
             self.makeElseData()
         data = self.utility.unpickle(current + self.final_categorical_dataset_file)
-        
+
         return data
