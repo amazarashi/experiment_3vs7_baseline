@@ -29,12 +29,12 @@ if __name__ == '__main__':
     lr = args.pop('lr')
     epoch = args.pop('epoch')
 
-    #dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
-    dataset = amaz_cifar10_dl.Cifar10().loader()
-    elseIndices = []
+    dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
+    #dataset = amaz_cifar10_dl.Cifar10().loader()
+    elseIndices = [0,1,2]
     category_num = 10 - len(elseIndices)
     print(category_num)
-    model = darknet19.Darknet19(category_num=category_num)
+    model = darknet19.Darknet19(category_num=9)
     optimizer = amaz_optimizer.OptimizerDarknet(model,lr=0.04,epoch=300,batch=args.pop("batch"))
     dataaugumentation = amaz_augumentationCustom.Normalize224
     args['model'] = model

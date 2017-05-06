@@ -26,6 +26,7 @@ class darkModule(chainer.Chain):
 class Darknet19(chainer.Chain):
 
     def __init__(self,category_num=10):
+        print("model category_num:",category_num)
         super(Darknet19,self).__init__(
             dark1 = darkModule(3,32,3,stride=1,pad=1),
             dark2 = darkModule(32,64,3,stride=1,pad=1),
