@@ -122,27 +122,48 @@ class Trainer(object):
         batch_in_batch_size = self.batchinbatch
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
-            for ii in six.moves.range(0, len(indices), batch_in_batch_size):
-                # print(ii)
-                x = train_x[ii:ii + batch_in_batch_size]
-                t = train_y[ii:ii + batch_in_batch_size]
-                d_length = len(x)
+            x = train_x[indices]
+            t = train_y[indices]
 
-                DaX = [self.dataaugumentation.train(img) for img in x]
-                x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
-                t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
+            DaX = []
+            for img in x:
+                da_x = self.dataaugumentation.train(img)
+                DaX.append(da_x)
 
-                y = model(x,train=True)
-                loss = model.calc_loss(y,t) / train_batch_devide
-                print(i,ii,loss.data)
-                loss.backward()
-                loss.to_cpu()
-                # print("loss",loss.data)
-                # print("batch_in_batch_size",batch_in_batch_size)
-                sum_loss += loss.data * d_length
-                print(sum_loss)
-                del loss,x,t
+            x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
+            t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
+
+            y = model(x,train=True)
+            loss = model.calc_loss(y,t)
+            loss.backward()
+            loss.to_cpu()
+            sum_loss += loss.data * len(indices)
+            del loss,x,t
             optimizer.update()
+            
+        # for i,indices in zip(progress,train_data_yeilder):
+        #     model.cleargrads()
+        #     for ii in six.moves.range(0, len(indices), batch_in_batch_size):
+        #         # print(ii)
+        #         x = train_x[ii:ii + batch_in_batch_size]
+        #         t = train_y[ii:ii + batch_in_batch_size]
+        #         d_length = len(x)
+        #
+        #         DaX = [self.dataaugumentation.train(img) for img in x]
+        #         x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
+        #         t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
+        #
+        #         y = model(x,train=True)
+        #         loss = model.calc_loss(y,t) / train_batch_devide
+        #         print(i,ii,loss.data)
+        #         loss.backward()
+        #         loss.to_cpu()
+        #         # print("loss",loss.data)
+        #         # print("batch_in_batch_size",batch_in_batch_size)
+        #         sum_loss += loss.data * d_length
+        #         print(sum_loss)
+        #         del loss,x,t
+        #     optimizer.update()
 
         ## LOGGING ME
         print("train mean loss : ",float(sum_loss) / total_data_length)
