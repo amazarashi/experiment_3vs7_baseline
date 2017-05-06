@@ -111,6 +111,7 @@ class Trainer(object):
 
         sum_loss = 0
         total_data_length = len(train_x)
+        train_batch_devide = batch/batch_in_batch_size
 
         progress = self.utility.create_progressbar(int(total_data_length/batch),desc='train',stride=1)
         train_data_yeilder = sampling.random_sampling(int(total_data_length/batch),batch,total_data_length)
@@ -129,7 +130,7 @@ class Trainer(object):
                 t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
 
                 y = model(x,train=True)
-                loss = model.calc_loss(y,t) / d_length
+                loss = model.calc_loss(y,t) / train_batch_devide
                 loss.backward()
                 loss.to_cpu()
                 # print("loss",loss.data)
