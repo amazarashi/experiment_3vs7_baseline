@@ -76,21 +76,21 @@ class Trainer(object):
         else_test_x = []
         else_test_y = []
         meta = self.dataset["meta"]
-            for ind in meta:
-                category = meta[ind]
-                categorical_data = self.dataset[category]
-                train_data = categorical_data["train"]
-                test_data = categorical_data["test"]
-                if ind in elseIndices:
-                    else_train_x += train_data
-                    else_train_y += list(range(len(train_data)))
-                    else_test_x += test_data
-                    else_test_y += list(range(len(test_data)))
-                else:
-                    train_x += train_data
-                    train_y += list(range(len(train_data)))
-                    test_x += test_data
-                    test_y += list(range(len(test_data)))
+        for ind in meta:
+            category = meta[ind]
+            categorical_data = self.dataset[category]
+            train_data = categorical_data["train"]
+            test_data = categorical_data["test"]
+            if ind in elseIndices:
+                else_train_x += train_data
+                else_train_y += list(range(len(train_data)))
+                else_test_x += test_data
+                else_test_y += list(range(len(test_data)))
+            else:
+                train_x += train_data
+                train_y += list(range(len(train_data)))
+                test_x += test_data
+                test_y += list(range(len(test_data)))
         return (train_x,train_y,test_x,test_y,else_train_x,else_train_y,else_test_x,else_test_y,meta)
 
     def train_one(self,epoch):
