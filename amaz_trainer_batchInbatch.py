@@ -30,8 +30,8 @@ class Trainer(object):
         self.epoch = epoch
         self.batch = batch
         self.elseIndices = elseIndices
-        self.train_x,self.train_y,self.test_x,self.test_y,self.meta = self.init_dataset()
-        #self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
+        #self.train_x,self.train_y,self.test_x,self.test_y,self.meta = self.init_dataset()
+        self.train_x,self.train_y,self.test_x,self.test_y,self.else_train_x,self.else_train_y,self.else_test_x,self.else_test_y,self.meta = self.init_dataset()
         self.gpu = gpu
         self.check_gpu_status = self.check_gpu(self.gpu)
         self.xp = self.check_cupy(self.gpu)
@@ -95,7 +95,6 @@ class Trainer(object):
             categorical_data = self.dataset[category]
             train_data = categorical_data["train"]
             test_data = categorical_data["test"]
-            print(type(train_data))
             if ind in elseIndices:
                 start_train = else_i * pernum_train
                 end_train = start_train + pernum_train
@@ -116,6 +115,7 @@ class Trainer(object):
                 test_x[start_test:end_test] = test_data
                 test_y[start_test:end_test] = np.zeros(pernum_test,dtype=np.int32) + target_i
                 target_i += 1
+
         return (train_x,
                 train_y,
                 test_x,
