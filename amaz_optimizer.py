@@ -33,7 +33,7 @@ class OptimizerDarknet(Optimizers):
 
     def update_parameter(self,current_epoch):
         # if current_epoch in self.schedule:
-        new_lr = self.lr * (1 - self.batch/self.data_length) ** self.decay_power
+        #new_lr = self.lr * (1 - self.batch/self.data_length) ** self.decay_power
         if current_epoch in self.schedule:
             new_lr = new_lr * 0.1
         self.lr = new_lr
