@@ -23,7 +23,7 @@ xp = cuda.cupy
 
 class Trainer(object):
 
-    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=32,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
+    def __init__(self,model=None,batchinbatch=16,loadmodel=None,elseIndices=None,optimizer=None,dataset=None,epoch=300,batch=64,gpu=-1,dataaugumentation=amaz_augumentationCustom.Normalize32):
         self.model = model
         self.optimizer = optimizer
         self.dataset = dataset
@@ -81,6 +81,9 @@ class Trainer(object):
             categorical_data = self.dataset[category]
             train_data = categorical_data["train"]
             test_data = categorical_data["test"]
+            print("category:",category)
+            print("train:",len(train_data))
+            print("test:",len(test_data))
             if ind in elseIndices:
                 else_train_x.extend(train_data)
                 else_train_y += list(range(len(train_data)))
@@ -121,15 +124,14 @@ class Trainer(object):
             model.cleargrads()
             for ii in six.moves.range(0, len(indices), batch_in_batch_size):
                 # print(ii)
-                x = train_x[ii:ii + batch_in_batch_size]
-                t = train_y[ii:ii + batch_in_batch_size]
+                x = train_x[indices[ii:ii + batch_in_batch_size]]
+                t = train_y[indices[ii:ii + batch_in_batch_size]]
                 d_length = len(x)
 
                 DaX = [self.dataaugumentation.train(img) for img in x]
                 x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
                 t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
-                print(x.shape)
-                
+
                 y = model(x,train=True)
                 loss = model.calc_loss(y,t) / train_batch_devide
                 loss.backward()
