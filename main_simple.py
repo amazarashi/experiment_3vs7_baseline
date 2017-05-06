@@ -40,6 +40,6 @@ if __name__ == '__main__':
     args['dataset'] = dataset
     args['dataaugumentation'] = dataaugumentation
     args['elseIndices'] = elseIndices
-    args['batch'] = 16
+    args['batch'] = args.pop('batch')
     main = amaz_trainer_batchInbatch.Trainer(**args)
     main.run()

@@ -108,8 +108,6 @@ class Trainer(object):
         meta = self.meta
         train_x = self.train_x
         train_y = self.train_y
-        print(len(train_x))
-        print(len(train_y))
 
         sum_loss = 0
         total_data_length = len(train_x)
@@ -122,11 +120,6 @@ class Trainer(object):
         batch_in_batch_size = self.batchinbatch
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
-            print(indices)
-            print(len(indices))
-            print("#####")
-            print("#####")
-            print("#####")
             x = train_x[indices]
             t = train_y[indices]
 
