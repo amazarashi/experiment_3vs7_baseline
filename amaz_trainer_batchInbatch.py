@@ -136,6 +136,11 @@ class Trainer(object):
                 loss.to_cpu()
                 # print("loss",loss.data)
                 # print("batch_in_batch_size",batch_in_batch_size)
+                print(batch)
+                print(batch_in_batch_size)
+                print(train_batch_devide)
+                print(loss.data)
+                print(total_data_length)
                 sum_loss += loss.data * d_length
                 del loss,x,t
             optimizer.update()
