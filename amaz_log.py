@@ -2,6 +2,7 @@ import urllib.request
 import tarfile
 from os import system
 import os
+from chainer import serializers
 import sys
 import six
 import pickle
@@ -47,7 +48,8 @@ class Log(object):
         return
 
     def save_model(self,model,epoch):
-        pickle.dump(model, open(self.model_save_path+"/model_{0}.pkl".format(str(epoch)), "wb"), -1)
+        serializers.save_npz(self.model_save_path+"/model_{0}.pkl".format(str(epoch)),model)
+        #pickle.dump(model, open(self.model_save_path+"/model_{0}.pkl".format(str(epoch)), "wb"), -1)
         return
 
     def train_loss(self,epoch,loss):
