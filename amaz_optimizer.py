@@ -38,7 +38,7 @@ class OptimizerDarknet(Optimizers):
             new_lr = self.lr * 0.1
             self.lr = new_lr
             self.optimizer.lr = new_lr
-        print("optimizer was changed to {0}..".format(new_lr))
+            print("optimizer was changed to {0}..".format(new_lr))
 
 
 class OptimizerDarknet448(Optimizers):
