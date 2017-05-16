@@ -169,6 +169,7 @@ class Trainer(object):
                 print(loss.data)
                 print(type(loss))
                 print("------------")
+                loss.to_gpu()
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length
