@@ -53,8 +53,12 @@ if __name__ == "__main__":
             features.append(feature.data)
             print(i)
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
-        print(centroid,maxdis)
         maxdis_res.append([labelname,centroid,maxdis])
+
+    #debug
+    for res in maxdis_res:
+        labelname,centroid,maxdis = res
+        print(labelname,":",maxdis)
 
     # for em in else_meta:
     #     labelname = tm
