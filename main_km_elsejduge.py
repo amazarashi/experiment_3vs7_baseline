@@ -57,7 +57,7 @@ if __name__ == "__main__":
 
     #debug
     for res in maxdis_res:
-        labelname,centroid,maxdis = res
+        labelname,centroid,maxdis,mindis = res
         print(labelname,":",maxdis)
 
     else_judge = 0
