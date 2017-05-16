@@ -159,8 +159,8 @@ class Trainer(object):
                 t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
 
                 y,km_feature = model(x,train=True,Kmeans=True)
-                #loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids) / train_batch_devide
-                loss = model.calc_loss(y,t) / train_batch_devide
+                loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids) / train_batch_devide
+                #loss = model.calc_loss(y,t) / train_batch_devide
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length
@@ -197,8 +197,8 @@ class Trainer(object):
 
             y,km_feature = model(x,train=False,Kmeans=True)
             sum_accuracy += F.accuracy(y,t).data * d_length
-            #loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids,volatile=True)
-            loss = model.calc_loss(y,t)
+            loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids,volatile=True)
+            #loss = model.calc_loss(y,t)
             sum_loss += d_length * loss.data
             #categorical_accuracy = model.accuracy_of_each_category(y,t)
             del loss,x,t
@@ -219,7 +219,7 @@ class Trainer(object):
         progressor = self.utility.create_progressbar(epoch,desc='epoch',stride=1,start=0)
         for i in progressor:
 
-            if i % 10 == 9:
+            if i % 10 == 0:
                 #update kmeans centroid
                 print("update kmeans centroid")
                 trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)

@@ -78,11 +78,11 @@ class Darknet19(chainer.Chain):
         h = self.dark17(h,train=train)
         h = self.dark18(h,train=train)
         km_feature = None
-        # if Kmeans:
-        #     k = h.data.copy()
-        #     num,c,y,x = k.shape
-        #     km_feature = F.average_pooling_2d(k,(y,x))
-        #     km_feature = F.reshape(km_feature,(num,c,))
+        if Kmeans:
+            k = h.data.copy()
+            num,c,y,x = k.shape
+            km_feature = F.average_pooling_2d(k,(y,x))
+            km_feature = F.reshape(km_feature,(num,c,))
         h = self.conv19(h)
         num,categories,y,x = h.data.shape
         #average pool over (y,x) area
@@ -130,29 +130,29 @@ class Darknet19(chainer.Chain):
         #label loss
         label_loss = F.softmax_cross_entropy(y,t)
 
-        # features = km_features
-        # features.to_cpu()
-        # t.to_cpu()
-        # batch,_ = features.shape
-        # km_loss = 0
-        # for feature,tt in zip(features,t.data):
-        #     centroidinfo = centroids[int(tt)]
-        #     labelname,centroid,maxdis,mindis = centroidinfo
-        #     feature = feature.data[0]
-        #     distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
-        #     km_loss += min(mindis,distance)
-        # km_loss = km_loss/batch
-        # km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
-        # km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
-        # km_loss_reverse.to_gpu()
-        #
-        # alpha = 0.00001
-        # loss = label_loss + alpha * km_loss_reverse
-        # loss = Variable(loss.data)
-        # print("label loss:",label_loss.data)
-        # print("km loss:",alpha * km_loss_reverse.data)
-        #return loss
-        return Variable(label_loss.data)
+        features = km_features
+        features.to_cpu()
+        t.to_cpu()
+        batch,_ = features.shape
+        km_loss = 0
+        for feature,tt in zip(features,t.data):
+            centroidinfo = centroids[int(tt)]
+            labelname,centroid,maxdis,mindis = centroidinfo
+            feature = feature.data[0]
+            distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+            km_loss += min(mindis,distance)
+        km_loss = km_loss/batch
+        km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
+        km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
+        km_loss_reverse.to_gpu()
+
+        alpha = 0.00001
+        loss = label_loss + alpha * km_loss_reverse
+        loss = Variable(loss.data)
+        print("label loss:",label_loss.data)
+        print("km loss:",alpha * km_loss_reverse.data)
+        return loss
+        #return Variable(label_loss.data)
 
     def accuracy_of_each_category(self,y,t):
         y.to_cpu()
