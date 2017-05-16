@@ -148,6 +148,9 @@ class Darknet19(chainer.Chain):
         print(label_loss.shape)
         print(km_loss_reverse.shape)
 
+        print(type(label_loss.data))
+        print(type(km_loss_reverse.data))
+
         alpha = 1.0
         loss = label_loss + alpha * km_loss_reverse
         return label_loss

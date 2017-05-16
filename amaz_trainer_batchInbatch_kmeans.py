@@ -168,8 +168,6 @@ class Trainer(object):
                 loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids) / train_batch_devide
                 print(loss.data)
                 print(type(loss))
-                print("------------")
-                loss.to_gpu()
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length
