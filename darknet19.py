@@ -146,11 +146,11 @@ class Darknet19(chainer.Chain):
         km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
         km_loss_reverse.to_gpu()
 
-        alpha = 1.0
+        alpha = 0.01
         loss = label_loss + alpha * km_loss_reverse
         loss = Variable(loss.data)
         #return loss
-        return label_loss
+        return Variable(label_loss.data)
 
     def accuracy_of_each_category(self,y,t):
         y.to_cpu()
