@@ -135,19 +135,14 @@ class Darknet19(chainer.Chain):
         features.to_cpu()
         batch,_ = features.shape
         km_loss = 0
-        print(t.data)
-        print(t.shape)
-        print(type(t.data))
-        print(centroids)
-        print(len(centroids))
-        print("********")
-        for feature,tt in zip(features,t):
+        for feature,tt in zip(features,t.data):
             centroidinfo = centroids[tt.data]
             labelname,centroid,maxdis,mindis = centroidinfo
             feature = feature.data[0]
             distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
             km_loss += min(mindis,distance)
-
+        km_loss = km_loss/batch
+        print(km_loss)
         return
 
     def accuracy_of_each_category(self,y,t):
