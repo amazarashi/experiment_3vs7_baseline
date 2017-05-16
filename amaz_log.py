@@ -129,6 +129,6 @@ class Log(object):
         df.drop(df.index[0])
         valuesAry1 = [value[1] for value in df[1:].values]
         valuesAry2 = [value[2] for value in df[1:].values]
-        axissize = len(valuesAry)
+        axissize = len(valuesAry1)
         aixisAry = np.arange(axissize)
         return (aixisAry,valuesAry1,valuesAry2)
