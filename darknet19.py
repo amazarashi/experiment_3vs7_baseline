@@ -7,6 +7,8 @@ from chainer import utils
 from tqdm import tqdm
 import sys
 
+import amaz_kmeans
+
 class darkModule(chainer.Chain):
 
     def __init__(self,in_size,out_size,k_size=3,stride=1,pad=1):
@@ -116,6 +118,11 @@ class Darknet19(chainer.Chain):
     def calc_loss(self,y,t):
         loss = F.softmax_cross_entropy(y,t)
         return loss
+
+    def calc_kmeansloss(self,y,t):
+        print(y.shape)
+        print(t)
+        return
 
     def accuracy_of_each_category(self,y,t):
         y.to_cpu()
