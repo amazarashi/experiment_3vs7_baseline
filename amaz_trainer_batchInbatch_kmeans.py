@@ -217,14 +217,14 @@ class Trainer(object):
         progressor = self.utility.create_progressbar(epoch,desc='epoch',stride=1,start=0)
         for i in progressor:
 
-            if i % 5 == 0:
+            if i % 10 == 0:
                 #update kmeans centroid
                 print("update kmeans centroid")
                 trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
                 #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
-            # self.train_one(i)
-            # self.optimizer.update_parameter(i)
+            self.train_one(i)
+            self.optimizer.update_parameter(i)
             self.test_one(i)
             #DUMP Model pkl
             model.to_cpu()
