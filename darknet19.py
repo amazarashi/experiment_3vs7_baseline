@@ -135,6 +135,9 @@ class Darknet19(chainer.Chain):
         features.to_cpu()
         batch,_ = features.shape
         km_loss = 0
+        print(centroids)
+        print(len(centroids))
+        print("********")
         for feature,tt in zip(features,t):
             centroidinfo = centroids[tt]
             labelname,centroid,maxdis,mindis = centroidinfo
