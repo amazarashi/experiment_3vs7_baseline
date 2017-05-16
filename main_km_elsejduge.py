@@ -1,4 +1,5 @@
 from chainer import serializers
+from chainer import cuda
 import urllib.request
 import tarfile
 from os import system
@@ -29,9 +30,11 @@ if __name__ == "__main__":
     #prepare model
     modelpath = "trained/model_40.pkl"
     model = darknet19.Darknet19(category_num=class_num-len(elseInd))
+    model.to_gpu()
     serializers.load_npz(modelpath, model)
     #toolkit
     dataaugumentation = amaz_augumentationCustom.Normalize224
+    np = cuda.cupy
     datashaping = amaz_datashaping.DataShaping(np)
 
     #get centroid of each category
