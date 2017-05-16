@@ -41,6 +41,6 @@ if __name__ == '__main__':
     args['dataset'] = dataset
     args['dataaugumentation'] = dataaugumentation
     args['elseIndices'] = elseIndices
-    args['loadmodel'] = "trained/model_265.pkl"
+    #args['loadmodel'] = "trained/model_265.pkl"
     main = amaz_trainer_batchInbatch_kmeans.Trainer(**args)
     main.run()
