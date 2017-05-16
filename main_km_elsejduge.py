@@ -66,20 +66,22 @@ if __name__ == "__main__":
         labelname = tm
         ctgcalimgs = dataset[labelname]["test"]
         features = []
-        #for i,img in enumerate(ctgcalimgs):
-        x = amaz_augumentation.Augumentation().Z_score(ctgcalimgs)
-        da_x = [dataaugumentation.test(xx) for xx in x]
-        xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
-        feature = model.getFeature(xin,train=False)
-        feature.to_cpu()
-        feature = feature.data
-        for f in feature:
+        for i,img in enumerate(ctgcalimgs):
+            x = amaz_augumentation.Augumentation().Z_score(ctgcalimgs)
+            da_x = [dataaugumentation.test(xx) for xx in x]
+            xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
+            feature = model.getFeature(xin,train=False)
+            feature.to_cpu()
+            feature = feature.data
+            # for f in feature:
             elseStatus = False
             print("--------------")
             for res in maxdis_res:
                 labelname,centroid,maxdis = res
                 print(labelname,":",maxdis)
-                distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,f)
+                print(len(feature))
+                print(len(centroid))
+                distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
                 print(distance)
                 if distance < maxdis:
                     elseStatus = True
