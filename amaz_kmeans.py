@@ -5,6 +5,8 @@ import sys
 import six
 import pickle
 import numpy as np
+from chainer import serializers
+from chainer import cuda
 
 import amaz_cifar10_dl
 import darknet19
@@ -80,3 +82,6 @@ class KmeansProcess(object):
             centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
             maxdis_res.append([labelname,centroid,maxdis])
         return (trained_meta,maxdis_res)
+
+    def calcElseScore(self):
+        return
