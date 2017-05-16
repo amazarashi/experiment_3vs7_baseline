@@ -80,8 +80,8 @@ if __name__ == "__main__":
                 print(labelname,":",maxdis)
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
                 print("distances:",distance)
-                print(centroid[:20])
-                print(feature[:20])
+                print(centroid[:30])
+                print(feature[:30])
                 if distance < maxdis:
                     elseStatus = True
                     nonelse_judge += 1
