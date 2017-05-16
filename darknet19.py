@@ -140,8 +140,9 @@ class Darknet19(chainer.Chain):
             print(tt)
             print(tt.data)
             print(type(tt))
+            print(int(tt))
             print(")(*%^&*())")
-            centroidinfo = centroids[tt.data]
+            centroidinfo = centroids[int(tt)]
             labelname,centroid,maxdis,mindis = centroidinfo
             feature = feature.data[0]
             distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
