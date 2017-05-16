@@ -49,8 +49,9 @@ if __name__ == "__main__":
             x = amaz_augumentation.Augumentation().Z_score(img)
             da_x = dataaugumentation.test(x)
             xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
-            featre = model.getFeature(xin,train=False)
-            features.append(featre.data)
+            feature = model.getFeature(xin,train=False)
+            print(feature.data)
+            features.append(feature.data)
             print(i)
 
         centroid,maxdis = amaz_kmeans.KmeansProcess.calc_categorical_centroid(np.array(features))
