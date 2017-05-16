@@ -60,12 +60,32 @@ if __name__ == "__main__":
         labelname,centroid,maxdis = res
         print(labelname,":",maxdis)
 
-    # for em in else_meta:
-    #     labelname = tm
-    #     ctgcalimgs = dataset[labelname]["train"]
-    #     features = []
-    #     for i,img in enumerate(ctgcalimgs):
-    #         x = amaz_augumentation.Augumentation().Z_score(img)
-    #         da_x = dataaugumentation.test(x)
-    #         xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
-    #         featre = model.getFeature(xin,train=False)
+    else_judge = 0
+    nonelse_judge = 0
+    for em in else_meta:
+        labelname = tm
+        ctgcalimgs = dataset[labelname]["train"]
+        features = []
+        for i,img in enumerate(ctgcalimgs):
+            x = amaz_augumentation.Augumentation().Z_score(img)
+            da_x = dataaugumentation.test(x)
+            xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
+            feature = model.getFeature(xin,train=False)
+            feature.to_cpu()
+            feature = feature.data
+            elseStatus = False
+            for res in maxdis_res:
+                labelname,centroid,maxdis = res
+                distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+                if distance < maxdis:
+                    elseStatus = True
+                    nonelse_judge += 1
+                    print("judged as :"+labelname)
+                    break
+            if elseStatus == False:
+                else_judge += 1
+                print("ELSE")
+            elseStatus = False
+
+    print("else:",else_judge)
+    print("non:",else_judge)
