@@ -50,10 +50,11 @@ if __name__ == "__main__":
             da_x = dataaugumentation.test(x)
             xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
             feature = model.getFeature(xin,train=False)
-            print(feature.data)
             features.append(feature.data)
             print(i)
-
+        print(features)
+        print(len(features))
+        print(type(features))
         centroid,maxdis = amaz_kmeans.KmeansProcess.calc_categorical_centroid(np.array(features))
         print(centroid,maxdis)
         maxdis_res.append([labelname,centroid,maxdis])

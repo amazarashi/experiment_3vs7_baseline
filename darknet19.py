@@ -111,7 +111,6 @@ class Darknet19(chainer.Chain):
         num,c,y,x = h.data.shape
         h = F.average_pooling_2d(h,(y,x))
         h = F.reshape(h,(c,))
-        print(h.shape)
         return h
 
     def calc_loss(self,y,t):
