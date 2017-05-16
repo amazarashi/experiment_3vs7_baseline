@@ -133,6 +133,7 @@ class Darknet19(chainer.Chain):
 
         features = km_features
         features.to_cpu()
+        t.to_cpu()
         batch,_ = features.shape
         km_loss = 0
         for feature,tt in zip(features,t.data):
