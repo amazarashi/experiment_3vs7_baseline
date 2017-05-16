@@ -74,8 +74,10 @@ class KmeansProcess(object):
             for i,img in enumerate(ctgcalimgs):
                 x = [amaz_augumentation.Augumentation().Z_score(img)]
                 da_x = [dataaugumentation.test(xx) for xx in x]
-                xin = datashaping.prepareinput(da_x,dtype=cuda.cupy.float32,volatile=True)
+                xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
                 xin.to_gpu()
+                print(type(xin))
+                print("--------")
                 feature = model.getFeature(xin,train=False)
                 feature.to_cpu()
                 print(labelname,":",i)
