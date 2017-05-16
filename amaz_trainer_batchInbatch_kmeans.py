@@ -145,6 +145,7 @@ class Trainer(object):
         progress = self.utility.create_progressbar(int(total_data_length/batch),desc='train',stride=1)
         train_data_yeilder = sampling.random_sampling(int(total_data_length/batch),batch,total_data_length)
 
+        if epoch % 5 == 0:
         #update kmeans centroid
         print("update kmeans centroid")
         trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
@@ -165,6 +166,8 @@ class Trainer(object):
 
                 y,km_feature = model(x,train=True,Kmeans=True)
                 loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids) / train_batch_devide
+                print(loss.data)
+                print(type(loss))
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length

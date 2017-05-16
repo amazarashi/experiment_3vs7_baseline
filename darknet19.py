@@ -143,10 +143,12 @@ class Darknet19(chainer.Chain):
             km_loss += min(mindis,distance)
         km_loss = km_loss/batch
         km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
-        km_loss_reverse = Variable(km_loss_reverse)
+        km_loss_reverse = Variable(km_loss_reverse[0])
         km_loss_reverse.to_gpu()
 
-        loss = label_loss + km_loss_reverse
+        print(label_loss.data)
+        print(km_loss_reverse.data)
+        loss = label_loss + alpha * km_loss_reverse
         loss.to_gpu()
         return loss
 
