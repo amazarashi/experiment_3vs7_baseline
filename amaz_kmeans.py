@@ -132,4 +132,4 @@ class KmeansProcess(object):
         print("else:",else_judge)
         print("non:",nonelse_judge)
         print(log)
-        return
+        return (else_judge,nonelse_judge)

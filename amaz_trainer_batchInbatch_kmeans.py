@@ -206,6 +206,8 @@ class Trainer(object):
         self.logger.test_loss(epoch,sum_loss/len(self.test_x))
         print("test mean accuracy : ", sum_accuracy/len(self.test_x))
         self.logger.accuracy(epoch,sum_accuracy/len(self.test_x))
+        else_score,nonelese_score = amaz_kmeans.KmeansProcess().calcElseScore(model,self.elseIndices,self.centroids)
+        self.logger.else_accuracy(epoch,else_score,nonelese_score)
         print("######################")
 
     def run(self):
@@ -220,8 +222,8 @@ class Trainer(object):
                 trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
                 #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
-            # self.train_one(i)
-            # self.optimizer.update_parameter(i)
+            self.train_one(i)
+            self.optimizer.update_parameter(i)
             self.test_one(i)
             #DUMP Model pkl
             model.to_cpu()
