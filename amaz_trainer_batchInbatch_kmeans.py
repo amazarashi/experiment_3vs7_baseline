@@ -146,10 +146,10 @@ class Trainer(object):
         train_data_yeilder = sampling.random_sampling(int(total_data_length/batch),batch,total_data_length)
 
         if epoch % 5 == 0:
-        #update kmeans centroid
-        print("update kmeans centroid")
-        trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
-        #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
+            #update kmeans centroid
+            print("update kmeans centroid")
+            trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
+            #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
