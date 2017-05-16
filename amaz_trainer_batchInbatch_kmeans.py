@@ -3,6 +3,7 @@ import numpy as np
 import chainer
 from chainer import cuda
 import chainer.functions as F
+from chainer import serializers
 from chainer import optimizers
 import time
 import six
