@@ -4,6 +4,7 @@ from os import system
 import sys
 import six
 import pickle
+import numpy as np
 
 from sklearn.cluster import KMeans
 
