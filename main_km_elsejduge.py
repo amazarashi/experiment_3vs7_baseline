@@ -75,15 +75,16 @@ if __name__ == "__main__":
         feature = feature.data
         for f in feature:
             elseStatus = False
+            print("--------------")
             for res in maxdis_res:
                 labelname,centroid,maxdis = res
+                print(labelname,":",maxdis)
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,f)
                 print(distance)
                 if distance < maxdis:
                     elseStatus = True
                     nonelse_judge += 1
                     print("judged as :"+labelname)
-                    break
             if elseStatus == False:
                 else_judge += 1
                 print("ELSE")
