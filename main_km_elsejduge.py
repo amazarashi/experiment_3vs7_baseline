@@ -52,7 +52,7 @@ if __name__ == "__main__":
         feature.to_cpu()
         #features.append(feature.data)
         print(feature.shape)
-        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
+        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(feature.data))
         maxdis_res.append([labelname,centroid,maxdis])
 
     #debug
