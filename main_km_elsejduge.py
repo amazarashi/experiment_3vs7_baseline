@@ -51,6 +51,7 @@ if __name__ == "__main__":
         feature = model.getFeature(xin,train=False)
         feature.to_cpu()
         features.append(feature.data)
+        print(features.shape)
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         maxdis_res.append([labelname,centroid,maxdis])
 
