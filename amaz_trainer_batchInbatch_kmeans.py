@@ -206,6 +206,7 @@ class Trainer(object):
         # self.logger.test_loss(epoch,sum_loss/len(self.test_x))
         # print("test mean accuracy : ", sum_accuracy/len(self.test_x))
         # self.logger.accuracy(epoch,sum_accuracy/len(self.test_x))
+        print("calculating else accuracy")
         else_score,nonelese_score = amaz_kmeans.KmeansProcess().calcElseScore(model,self.elseIndices,self.centroids)
         self.logger.else_accuracy(epoch,else_score,nonelese_score)
         print("######################")

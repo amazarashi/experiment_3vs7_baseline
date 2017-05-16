@@ -74,7 +74,7 @@ class Log(object):
         return
 
     def else_accuracy(self,epoch,else_accuracy,nonelse_accuracy):
-        self.elseaccuracy_fp.write("%d,%f\n" % (epoch, else_accuracy,nonelse_accuracy))
+        self.elseaccuracy_fp.write("%d,%f,%f\n" % (epoch, else_accuracy,nonelse_accuracy))
         self.elseaccuracy_fp.flush()
         self.plt_else_accuracy()
         return
