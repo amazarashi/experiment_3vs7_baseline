@@ -148,6 +148,7 @@ class Darknet19(chainer.Chain):
 
         print(label_loss.data)
         print(km_loss_reverse.data)
+        alpha = 1.0
         loss = label_loss + alpha * km_loss_reverse
         loss.to_gpu()
         return loss
