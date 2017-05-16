@@ -108,7 +108,9 @@ class Darknet19(chainer.Chain):
         h = self.dark16(h,train=train)
         h = self.dark17(h,train=train)
         h = self.dark18(h,train=train)
-        h = self.conv19(h)
+        print(h.shape)
+        h = F.average_pooling_2d(h,(y,x))
+        h = F.reshape(h,(num,categories))
         return h
 
     def calc_loss(self,y,t):
