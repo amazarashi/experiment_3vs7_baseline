@@ -79,9 +79,57 @@ class KmeansProcess(object):
                 feature = model.getFeature(xin,train=False)
                 feature.to_cpu()
                 features.append(feature.data[0])
-            centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
+            centroid,maxdis = self.calc_categorical_centroid(np.array(features))
             maxdis_res.append([labelname,centroid,maxdis])
         return (trained_meta,maxdis_res)
 
-    def calcElseScore(self):
+    def calcElseScore(self,model,elseIndices,maxdis_res):
+        class_num = 10
+        allInd = np.arange(class_num)
+        elseInd = np.array(elseIndices)
+        trainedInd = np.delete(allInd,elseInd)
+
+        #prepare data
+        dataset = amaz_cifar10_dl.Cifar10().categorical_loader()
+        meta = np.array(dataset["meta"])
+        else_meta = meta[elseInd]
+        trained_meta = meta[trainedInd]
+
+        #toolkit
+        dataaugumentation = amaz_augumentationCustom.Normalize224
+        datashaping = amaz_datashaping.DataShaping(cuda.cupy)
+
+        else_judge = 0
+        nonelse_judge = 0
+        log = {}
+        for em in else_meta:
+            labelname = tm
+            ctgcalimgs = dataset[labelname]["test"]
+            features = []
+            for i,img in enumerate(ctgcalimgs):
+                x = [amaz_augumentation.Augumentation().Z_score(img)]
+                da_x = [dataaugumentation.test(xx) for xx in x]
+                xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
+                feature = model.getFeature(xin,train=False)
+                feature.to_cpu()
+                feature = feature.data[0]
+                # for f in feature:
+                elseStatus = False
+                for res in maxdis_res:
+                    labelname,centroid,maxdis = res
+                    distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+                    if distance < maxdis:
+                        elseStatus = True
+                        nonelse_judge += 1
+                        if labelname in log.keys():
+                            log[labelname] = int(log[labelname]) + 1
+                        else:
+                            log[labelname] = 1
+                if elseStatus == False:
+                    else_judge += 1
+                elseStatus = False
+
+        print("else:",else_judge)
+        print("non:",nonelse_judge)
+        print(log)
         return
