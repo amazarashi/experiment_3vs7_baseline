@@ -15,6 +15,7 @@ import amaz_datashaping
 import amaz_log
 import amaz_augumentationCustom
 import amaz_imagenet
+import amaz_kmeans
 import sys
 
 sampling = amaz_sampling.Sampling()
@@ -42,6 +43,7 @@ class Trainer(object):
         self.batchinbatch = batchinbatch
         self.loadmodel = loadmodel
         self.init_model()
+        self.centroids = None
 
     def check_cupy(self,gpu):
         if gpu == -1:
@@ -142,8 +144,14 @@ class Trainer(object):
         progress = self.utility.create_progressbar(int(total_data_length/batch),desc='train',stride=1)
         train_data_yeilder = sampling.random_sampling(int(total_data_length/batch),batch,total_data_length)
 
+        #update kmeans centroid
+        print("update kmeans centroid")
+        trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
+        #trained_meta,maxdis_res:([[labelname,centroid,maxdis]])
+
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
+
             for ii in six.moves.range(0, len(indices), batch_in_batch_size):
                 # print(ii)
                 x = train_x[indices[ii:ii + batch_in_batch_size]]
@@ -154,8 +162,8 @@ class Trainer(object):
                 x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
                 t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
 
-                y = model(x,train=True)
-                loss = model.calc_kmeansloss(y,t) / train_batch_devide
+                y,km = model(x,train=True,Kmeans=True)
+                loss = model.calc_kmeansloss(y,t,km,epoch,self.centroids) / train_batch_devide
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length
@@ -190,8 +198,8 @@ class Trainer(object):
             x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=True)
             t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=True)
 
-            y = model(x,train=False)
-            loss = model.calc_kmeansloss(y,t)
+            y,km = model(x,train=False,Kmeans=True)
+            loss = model.calc_kmeansloss(y,t,km,epoch,self.centroids)
             sum_loss += d_length * loss.data
             sum_accuracy += F.accuracy(y,t).data * d_length
             #categorical_accuracy = model.accuracy_of_each_category(y,t)

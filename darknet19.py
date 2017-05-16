@@ -51,7 +51,7 @@ class Darknet19(chainer.Chain):
             conv19 = L.Convolution2D(1024,category_num,1,stride=1,pad=0)
         )
 
-    def __call__(self,x,train=True):
+    def __call__(self,x,train=True,Kmeans=False):
         #x = chainer.Variable(x)
         h = self.dark1(x,train=train)
         h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
@@ -76,6 +76,11 @@ class Darknet19(chainer.Chain):
         h = self.dark16(h,train=train)
         h = self.dark17(h,train=train)
         h = self.dark18(h,train=train)
+        km_feature = None
+        if Kmeans:
+            num,c,y,x = h.data.shape
+            km_feature = F.average_pooling_2d(h,(y,x))
+            km_feature = F.reshape(h,(num,c,))
         h = self.conv19(h)
         num,categories,y,x = h.data.shape
         #average pool over (y,x) area
@@ -83,7 +88,7 @@ class Darknet19(chainer.Chain):
         # if categories = n
         # [num1[0,1,,,n],num2[0,1,2,,,n],,,]
         h = F.reshape(h,(num,categories))
-        return h
+        return (h,km)
 
     def getFeature(self,x,train=True):
         #x = chainer.Variable(x)
@@ -119,9 +124,17 @@ class Darknet19(chainer.Chain):
         loss = F.softmax_cross_entropy(y,t)
         return loss
 
-    def calc_kmeansloss(self,y,t):
-        print(y.shape)
-        print(t)
+    def calc_kmeansloss(self,y,t,km,epoch,centroids):
+        #label loss
+        label_loss = F.softmax_cross_entropy(y,t)
+        print(label_loss.data)
+
+        features = km
+        batch,_ = features.shape
+        km_loss = 0
+        for feature,tt in zip(features,t):
+            print(feature,tt)
+
         return
 
     def accuracy_of_each_category(self,y,t):
