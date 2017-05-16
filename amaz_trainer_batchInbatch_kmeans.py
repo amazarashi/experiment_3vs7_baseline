@@ -195,9 +195,9 @@ class Trainer(object):
             t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=True)
 
             y,km_feature = model(x,train=False,Kmeans=True)
+            sum_accuracy += F.accuracy(y,t).data * d_length
             loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids,volatile=True)
             sum_loss += d_length * loss.data
-            sum_accuracy += F.accuracy(y,t).data * d_length
             #categorical_accuracy = model.accuracy_of_each_category(y,t)
             del loss,x,t
 
