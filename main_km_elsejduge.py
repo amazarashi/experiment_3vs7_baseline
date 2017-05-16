@@ -34,8 +34,7 @@ if __name__ == "__main__":
     serializers.load_npz(modelpath, model)
     #toolkit
     dataaugumentation = amaz_augumentationCustom.Normalize224
-    np = cuda.cupy
-    datashaping = amaz_datashaping.DataShaping(np)
+    datashaping = amaz_datashaping.DataShaping(cuda.cupy)
 
     #get centroid of each category
     maxdis_res = []
@@ -53,9 +52,6 @@ if __name__ == "__main__":
             feature.to_cpu()
             features.append(feature.data)
             print(i)
-        print(features)
-        print(len(features))
-        print(type(features))
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         print(centroid,maxdis)
         maxdis_res.append([labelname,centroid,maxdis])
