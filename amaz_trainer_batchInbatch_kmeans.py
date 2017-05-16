@@ -148,7 +148,7 @@ class Trainer(object):
         #update kmeans centroid
         print("update kmeans centroid")
         trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
-        #trained_meta,maxdis_res:([[labelname,centroid,maxdis]])
+        #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()

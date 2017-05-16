@@ -78,9 +78,10 @@ class Darknet19(chainer.Chain):
         h = self.dark18(h,train=train)
         km_feature = None
         if Kmeans:
-            num,c,y,x = h.data.shape
-            km_feature = F.average_pooling_2d(h,(y,x))
-            km_feature = F.reshape(h,(num,c,))
+            k = h
+            num,c,y,x = k.data.shape
+            km_feature = F.average_pooling_2d(k,(y,x))
+            km_feature = F.reshape(k,(num,c,))
         h = self.conv19(h)
         num,categories,y,x = h.data.shape
         #average pool over (y,x) area
@@ -124,16 +125,22 @@ class Darknet19(chainer.Chain):
         loss = F.softmax_cross_entropy(y,t)
         return loss
 
-    def calc_kmeansloss(self,y,t,km,epoch,centroids):
+    def calc_kmeansloss(self,y,t,km_features,epoch,centroids):
         #label loss
         label_loss = F.softmax_cross_entropy(y,t)
         print(label_loss.data)
+        print('_____')
 
-        features = km
+        features = km_features
+        features.to_cpu()
         batch,_ = features.shape
         km_loss = 0
         for feature,tt in zip(features,t):
-            print(feature,tt)
+            centroidinfo = centroids[tt]
+            labelname,centroid,maxdis,mindis = centroidinfo
+            feature = feature.data[0]
+            distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+            km_loss += min(mindis,distance)
 
         return
 

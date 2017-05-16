@@ -32,14 +32,14 @@ class KmeansProcess(object):
         #sum of distance from centroid
         sum_distances = km_model.inertia_
 
-        maxdis = 0.
-        maxdis_ind = 0
+        disAry = []
         for i,feature in enumerate(features):
             dis = self.calc_distance_2point(centroid,feature)
-            if dis > maxdis:
-                maxdis = dis
-                maxdis_ind = i
-        return (centroid,maxdis)
+            disAry.append(dis)
+
+        maxdis = np.max(np.array(disAry))
+        mindis = np.max(np.array(disAry))
+        return (centroid,maxdis,mindis)
 
     def calc_distance_2point(self,pt1,pt2):
         pt1 = np.array(pt1)
@@ -79,8 +79,8 @@ class KmeansProcess(object):
                 feature = model.getFeature(xin,train=False)
                 feature.to_cpu()
                 features.append(feature.data[0])
-            centroid,maxdis = self.calc_categorical_centroid(np.array(features))
-            maxdis_res.append([labelname,centroid,maxdis])
+            centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
+            maxdis_res.append([labelname,centroid,maxdis,mindis])
         return (trained_meta,maxdis_res)
 
     def calcElseScore(self,model,elseIndices,maxdis_res):
