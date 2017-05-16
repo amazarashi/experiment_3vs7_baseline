@@ -45,11 +45,12 @@ if __name__ == "__main__":
         print(labelname)
         print(len(ctgcalimgs))
         for i,img in enumerate(ctgcalimgs):
-            x = amaz_augumentation.Augumentation().Z_score(ctgcalimgs)
+            x = amaz_augumentation.Augumentation().Z_score(img)
             da_x = [dataaugumentation.test(xx) for xx in x]
             xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
             feature = model.getFeature(xin,train=False)
             feature.to_cpu()
+            print(labelname,":",i)
         features.append(feature.data[0])
         print(feature.shape)
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
