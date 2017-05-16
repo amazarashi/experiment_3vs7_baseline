@@ -75,13 +75,9 @@ if __name__ == "__main__":
             feature = feature.data[0]
             # for f in feature:
             elseStatus = False
-            print("--------------")
             for res in maxdis_res:
                 labelname,centroid,maxdis = res
                 print(labelname,":",maxdis)
-                print(feature.shape)
-                print(len(feature))
-                print(len(centroid))
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
                 print(distance)
                 if distance < maxdis:
