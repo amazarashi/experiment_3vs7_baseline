@@ -141,11 +141,14 @@ class Darknet19(chainer.Chain):
             distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
             km_loss += min(mindis,distance)
         km_loss = km_loss/batch
-        print(km_loss)
-        print(1/km_loss)
-        print("##############")
-        print("##############")
-        print("##############")
+        km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
+        km_loss_reverse = Variable(km_loss_reverse)
+        km_loss_reverse.to_gpu()
+        print(type(km_loss_reverse))
+        print("#####")
+        print("#####")
+        print("#####")
+        loss = label_loss + km_loss_reverse
         return
 
     def accuracy_of_each_category(self,y,t):
