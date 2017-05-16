@@ -38,7 +38,7 @@ if __name__ == "__main__":
     datashaping = amaz_datashaping.DataShaping(np)
 
     #get centroid of each category
-    maxdis_res = {}
+    maxdis_res = []
     for tm in trained_meta:
         labelname = tm
         ctgcalimgs = dataset[labelname]["train"]
@@ -53,19 +53,16 @@ if __name__ == "__main__":
             features.append(featre)
             print(i)
 
-        centroid,maxdis = amaz_kmeans.KmeansProcess.calc_categorical_centroid(np.array(features))
-        res = {}
-        res["centroid"] = centroid
-        res["maxdis"] = maxdis
-        maxdis_res[tm] = res
+        centroid,maxdis = amaz_kmeans.KmeansProcess.calc_categorical_centroid(np.array(features.data))
+        print(centroid,maxdis)
+        maxdis_res.append([labelname,centroid,maxdis])
 
-
-    for em in else_meta:
-        labelname = tm
-        ctgcalimgs = dataset[labelname]["train"]
-        features = []
-        for i,img in enumerate(ctgcalimgs):
-            x = amaz_augumentation.Augumentation().Z_score(img)
-            da_x = dataaugumentation.test(x)
-            xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
-            featre = model.getFeature(xin,train=False)
+    # for em in else_meta:
+    #     labelname = tm
+    #     ctgcalimgs = dataset[labelname]["train"]
+    #     features = []
+    #     for i,img in enumerate(ctgcalimgs):
+    #         x = amaz_augumentation.Augumentation().Z_score(img)
+    #         da_x = dataaugumentation.test(x)
+    #         xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
+    #         featre = model.getFeature(xin,train=False)
