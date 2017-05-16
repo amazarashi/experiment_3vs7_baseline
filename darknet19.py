@@ -77,12 +77,12 @@ class Darknet19(chainer.Chain):
         h = self.dark16(h,train=train)
         h = self.dark17(h,train=train)
         h = self.dark18(h,train=train)
-        km_feature = None
-        if Kmeans:
-            k = h.data.copy()
-            num,c,y,x = k.shape
-            km_feature = F.average_pooling_2d(k,(y,x))
-            km_feature = F.reshape(km_feature,(num,c,))
+        # km_feature = None
+        # if Kmeans:
+        #     k = h.data.copy()
+        #     num,c,y,x = k.shape
+        #     km_feature = F.average_pooling_2d(k,(y,x))
+        #     km_feature = F.reshape(km_feature,(num,c,))
         h = self.conv19(h)
         num,categories,y,x = h.data.shape
         #average pool over (y,x) area
