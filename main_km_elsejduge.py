@@ -50,6 +50,7 @@ if __name__ == "__main__":
             da_x = dataaugumentation.test(x)
             xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
             feature = model.getFeature(xin,train=False)
+            feature.to_cpu()
             features.append(feature.data)
             print(i)
         print(features)
