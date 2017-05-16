@@ -137,6 +137,10 @@ class Darknet19(chainer.Chain):
         batch,_ = features.shape
         km_loss = 0
         for feature,tt in zip(features,t.data):
+            print(tt)
+            print(tt.data)
+            print(type(tt))
+            print(")(*%^&*())")
             centroidinfo = centroids[tt.data]
             labelname,centroid,maxdis,mindis = centroidinfo
             feature = feature.data[0]
