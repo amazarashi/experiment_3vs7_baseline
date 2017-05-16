@@ -62,9 +62,10 @@ if __name__ == "__main__":
 
     else_judge = 0
     nonelse_judge = 0
+    log = {}
     for em in else_meta:
         labelname = tm
-        ctgcalimgs = dataset[labelname]["test"][:100]
+        ctgcalimgs = dataset[labelname]["test"]
         features = []
         for i,img in enumerate(ctgcalimgs):
             x = [amaz_augumentation.Augumentation().Z_score(img)]
@@ -85,6 +86,10 @@ if __name__ == "__main__":
                 if distance < maxdis:
                     elseStatus = True
                     nonelse_judge += 1
+                    if labelname in log.keys():
+                        log[labelname] = int(log[labelname]) + 1
+                    else:
+                        log[labelname] = 1
                     print("judged as :"+labelname)
             if elseStatus == False:
                 else_judge += 1
@@ -93,3 +98,4 @@ if __name__ == "__main__":
 
     print("else:",else_judge)
     print("non:",nonelse_judge)
+    print(log)
