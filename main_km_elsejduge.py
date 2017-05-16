@@ -52,8 +52,8 @@ if __name__ == "__main__":
             feature.to_cpu()
             print(labelname,":",i)
             features.append(feature.data[0])
-        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
-        maxdis_res.append([labelname,centroid,maxdis])
+        centroid,maxdis,mindis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
+        maxdis_res.append([labelname,centroid,maxdis,mindis])
 
     #debug
     for res in maxdis_res:
@@ -77,7 +77,7 @@ if __name__ == "__main__":
             # for f in feature:
             elseStatus = False
             for res in maxdis_res:
-                labelname,centroid,maxdis = res
+                labelname,centroid,maxdis,mindis = res
                 print(labelname,":",maxdis)
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
                 print("distances:",distance)
