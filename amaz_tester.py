@@ -1,4 +1,5 @@
 import numpy as np
+from chainer import serializers
 import amaz_augumentationCustom
 import amaz_datashaping
 import amaz_augumentation
@@ -12,7 +13,7 @@ class Tester(object):
         self.model = model
         self.dataset = dataset
         self.dataaugumentation = dataaugumentation
-        self.model_file_path = "model/model_299.pkl"
+        self.model_file_path = "trained/model_40.pkl"
         self.meta = self.init_meta()
         self.load_model()
         self.xp = np
@@ -24,8 +25,7 @@ class Tester(object):
 
     def load_model(self):
         print("loading model...")
-        with open(self.model_file_path, 'rb') as i:
-            self.model = pickle.load(i)
+        serializers.load_npz(self.model_file_path, self.model)
         return
 
     def executeOne(self,x):
@@ -35,7 +35,7 @@ class Tester(object):
         y = self.model(xin,train=False)
         res = {}
         score_of_each = list(y.data)
-        predict_index = np.argmax(score_of_each, axis=1)
+        predict_index = np.argmax(score_of_each, axis=1)[0] + 3
         print(self.meta)
         predict_label = self.meta[predict_index]
         res["score_of_each"] = score_of_each

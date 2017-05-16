@@ -83,6 +83,34 @@ class Darknet19(chainer.Chain):
         h = F.reshape(h,(num,categories))
         return h
 
+    def getFeature(self,x,train=True):
+        #x = chainer.Variable(x)
+        h = self.dark1(x,train=train)
+        h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
+        h = self.dark2(h,train=train)
+        h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
+        h = self.dark3(h,train=train)
+        h = self.dark4(h,train=train)
+        h = self.dark5(h,train=train)
+        h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
+        h = self.dark6(h,train=train)
+        h = self.dark7(h,train=train)
+        h = self.dark8(h,train=train)
+        h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
+        h = self.dark9(h,train=train)
+        h = self.dark10(h,train=train)
+        h = self.dark11(h,train=train)
+        h = self.dark12(h,train=train)
+        h = self.dark13(h,train=train)
+        h = F.max_pooling_2d(h,ksize=2,stride=2,pad=0)
+        h = self.dark14(h,train=train)
+        h = self.dark15(h,train=train)
+        h = self.dark16(h,train=train)
+        h = self.dark17(h,train=train)
+        h = self.dark18(h,train=train)
+        h = self.conv19(h)
+        return h
+
     def calc_loss(self,y,t):
         loss = F.softmax_cross_entropy(y,t)
         return loss
