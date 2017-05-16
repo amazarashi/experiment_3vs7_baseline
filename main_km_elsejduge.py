@@ -45,7 +45,7 @@ if __name__ == "__main__":
         features = []
         print(labelname)
         print(len(ctgcalimgs))
-        for i,img in enumerate(ctgcalimgs):
+        for i,img in enumerate(ctgcalimgs[:100]):
             x = amaz_augumentation.Augumentation().Z_score(img)
             da_x = dataaugumentation.test(x)
             xin = datashaping.prepareinput([da_x],dtype=np.float32,volatile=True)
