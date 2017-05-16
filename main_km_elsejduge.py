@@ -67,7 +67,7 @@ if __name__ == "__main__":
         ctgcalimgs = dataset[labelname]["test"]
         features = []
         for i,img in enumerate(ctgcalimgs):
-            x = amaz_augumentation.Augumentation().Z_score(img)
+            x = [amaz_augumentation.Augumentation().Z_score(img)]
             da_x = [dataaugumentation.test(xx) for xx in x]
             xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
             feature = model.getFeature(xin,train=False)
