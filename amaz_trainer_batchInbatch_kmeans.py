@@ -225,8 +225,8 @@ class Trainer(object):
                 trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
                 #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
-            self.train_one(i)
-            self.optimizer.update_parameter(i)
+            # self.train_one(i)
+            # self.optimizer.update_parameter(i)
             self.test_one(i)
             #DUMP Model pkl
             model.to_cpu()
