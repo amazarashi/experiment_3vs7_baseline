@@ -117,7 +117,7 @@ class KmeansProcess(object):
                 elseStatus = False
                 for res in maxdis_res:
                     labelname,centroid,maxdis,mindis = res
-                    distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+                    distance = self.calc_distance_2point(centroid,feature)
                     if distance < maxdis:
                         elseStatus = True
                         nonelse_judge += 1
