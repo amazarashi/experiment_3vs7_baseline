@@ -40,7 +40,7 @@ if __name__ == "__main__":
     maxdis_res = []
     for tm in trained_meta:
         labelname = tm
-        ctgcalimgs = dataset[labelname]["train"][:100]
+        ctgcalimgs = dataset[labelname]["train"]
         features = []
         print(labelname)
         print(len(ctgcalimgs))
