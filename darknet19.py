@@ -81,7 +81,7 @@ class Darknet19(chainer.Chain):
             k = h.data.copy()
             num,c,y,x = k.shape
             km_feature = F.average_pooling_2d(k,(y,x))
-            km_feature = F.reshape(k,(num,c,))
+            km_feature = F.reshape(km_feature,(num,c,))
         h = self.conv19(h)
         num,categories,y,x = h.data.shape
         #average pool over (y,x) area
