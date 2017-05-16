@@ -40,7 +40,7 @@ if __name__ == "__main__":
     maxdis_res = []
     for tm in trained_meta:
         labelname = tm
-        ctgcalimgs = dataset[labelname]["train"]
+        ctgcalimgs = dataset[labelname]["train"][:100]
         features = []
         print(labelname)
         print(len(ctgcalimgs))
@@ -52,7 +52,6 @@ if __name__ == "__main__":
             feature.to_cpu()
             print(labelname,":",i)
         features.append(feature.data[0])
-        print(feature.shape)
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         maxdis_res.append([labelname,centroid,maxdis])
 
@@ -65,7 +64,7 @@ if __name__ == "__main__":
     nonelse_judge = 0
     for em in else_meta:
         labelname = tm
-        ctgcalimgs = dataset[labelname]["test"]
+        ctgcalimgs = dataset[labelname]["test"][:100]
         features = []
         for i,img in enumerate(ctgcalimgs):
             x = [amaz_augumentation.Augumentation().Z_score(img)]
