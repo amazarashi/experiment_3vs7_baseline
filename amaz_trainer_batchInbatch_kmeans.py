@@ -163,8 +163,8 @@ class Trainer(object):
                 x = self.datashaping.prepareinput(DaX,dtype=np.float32,volatile=False)
                 t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=False)
 
-                y = model(x,train=True,Kmeans=True)
-                loss = model.calc_kmeansloss(y,t,km,epoch,self.centroids) / train_batch_devide
+                y,km_feature = model(x,train=True,Kmeans=True)
+                loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids) / train_batch_devide
                 loss.backward()
                 loss.to_cpu()
                 sum_loss += loss.data * d_length
@@ -200,7 +200,7 @@ class Trainer(object):
             t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=True)
 
             y,km_feature = model(x,train=False,Kmeans=True)
-            loss = model.calc_kmeansloss(y,t,km,epoch,self.centroids)
+            loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids)
             sum_loss += d_length * loss.data
             sum_accuracy += F.accuracy(y,t).data * d_length
             #categorical_accuracy = model.accuracy_of_each_category(y,t)
