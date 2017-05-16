@@ -24,7 +24,7 @@ class KmeansProcess(object):
         #Centroid
         centroid = km_model.cluster_centers_[0]
         #sum of distance from centroid
-        sum_distances = kmeans_model.inertia_
+        sum_distances = km_model.inertia_
 
         maxdis = 0.
         maxdis_ind = 0
