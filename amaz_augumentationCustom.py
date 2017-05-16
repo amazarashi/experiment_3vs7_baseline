@@ -89,7 +89,7 @@ class Normalize224(object):
     def test(X):
         res = augumentation.convert_to_imgAry(X)
         res = augumentation.resize(res,(224,224))
-        res = augumentation.normalize(res,value=10.)
+        #res = augumentation.normalize(res,value=10.)
         res = augumentation.convert_to_chainerVariable(res)
         return res
 
