@@ -64,7 +64,7 @@ if __name__ == "__main__":
     nonelse_judge = 0
     for em in else_meta:
         labelname = tm
-        ctgcalimgs = dataset[labelname]["train"]
+        ctgcalimgs = dataset[labelname]["test"]
         features = []
         for i,img in enumerate(ctgcalimgs):
             x = amaz_augumentation.Augumentation().Z_score(img)
