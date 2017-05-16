@@ -1,6 +1,7 @@
 import chainer
 import chainer.functions as F
 import chainer.links as L
+from chainer import Variable
 import skimage.io as io
 import numpy as np
 from chainer import utils
