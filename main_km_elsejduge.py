@@ -73,20 +73,21 @@ if __name__ == "__main__":
         feature = model.getFeature(xin,train=False)
         feature.to_cpu()
         feature = feature.data
-        elseStatus = False
-        for res in maxdis_res:
-            labelname,centroid,maxdis = res
-            distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
-            print(distance)
-            if distance < maxdis:
-                elseStatus = True
-                nonelse_judge += 1
-                print("judged as :"+labelname)
-                break
-        if elseStatus == False:
-            else_judge += 1
-            print("ELSE")
-        elseStatus = False
+        for f in feature:
+            elseStatus = False
+            for res in maxdis_res:
+                labelname,centroid,maxdis = res
+                distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,f)
+                print(distance)
+                if distance < maxdis:
+                    elseStatus = True
+                    nonelse_judge += 1
+                    print("judged as :"+labelname)
+                    break
+            if elseStatus == False:
+                else_judge += 1
+                print("ELSE")
+            elseStatus = False
 
     print("else:",else_judge)
     print("non:",else_judge)

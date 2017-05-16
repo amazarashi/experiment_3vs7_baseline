@@ -17,8 +17,6 @@ class KmeansProcess(object):
         pass
 
     def calc_categorical_centroid(self,features):
-        print(features.shape)
-        print(type(features))
         km_model = KMeans(n_clusters=1, random_state=10).fit(features)
 
         #Centroid
