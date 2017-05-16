@@ -102,7 +102,7 @@ class Log(object):
         return
 
     def plt_else_accuracy(self):
-        aixisAry,elseAry,nonelseAry = self.load_elseplt_data(self.else_accuracy_result_path)
+        aixisAry,elseAry,nonelseAry = self.load_elseplt_data(self.else_accuracy_path)
         plt.clf()
         plt.plot(aixisAry,elseAry, label='else')
         plt.plot(aixisAry,nonelseAry, label='nonelse')
