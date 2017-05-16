@@ -72,13 +72,14 @@ if __name__ == "__main__":
             xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
             feature = model.getFeature(xin,train=False)
             feature.to_cpu()
-            feature = feature.data
+            feature = feature.data[0]
             # for f in feature:
             elseStatus = False
             print("--------------")
             for res in maxdis_res:
                 labelname,centroid,maxdis = res
                 print(labelname,":",maxdis)
+                print(feature.shape)
                 print(len(feature))
                 print(len(centroid))
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
