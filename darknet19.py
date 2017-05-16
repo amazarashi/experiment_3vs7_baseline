@@ -78,7 +78,7 @@ class Darknet19(chainer.Chain):
         h = self.dark18(h,train=train)
         km_feature = None
         if Kmeans:
-            k = h
+            k = h.data.copy()
             num,c,y,x = k.data.shape
             km_feature = F.average_pooling_2d(k,(y,x))
             km_feature = F.reshape(k,(num,c,))
@@ -89,7 +89,7 @@ class Darknet19(chainer.Chain):
         # if categories = n
         # [num1[0,1,,,n],num2[0,1,2,,,n],,,]
         h = F.reshape(h,(num,categories))
-        return (h,km)
+        return (h,km_feature)
 
     def getFeature(self,x,train=True):
         #x = chainer.Variable(x)
@@ -129,7 +129,7 @@ class Darknet19(chainer.Chain):
         #label loss
         label_loss = F.softmax_cross_entropy(y,t)
         print(label_loss.data)
-        print('_____')
+        print("_______")
 
         features = km_features
         features.to_cpu()
