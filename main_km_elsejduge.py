@@ -51,7 +51,7 @@ if __name__ == "__main__":
             feature = model.getFeature(xin,train=False)
             feature.to_cpu()
             print(labelname,":",i)
-        features.append(feature.data[0])
+            features.append(feature.data[0])
         centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         maxdis_res.append([labelname,centroid,maxdis])
 
@@ -79,7 +79,7 @@ if __name__ == "__main__":
                 labelname,centroid,maxdis = res
                 print(labelname,":",maxdis)
                 distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
-                print(distance)
+                print("distances:",distance)
                 if distance < maxdis:
                     elseStatus = True
                     nonelse_judge += 1
