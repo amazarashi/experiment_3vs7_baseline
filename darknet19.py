@@ -79,7 +79,7 @@ class Darknet19(chainer.Chain):
         km_feature = None
         if Kmeans:
             k = h.data.copy()
-            num,c,y,x = k.data.shape
+            num,c,y,x = k.shape
             km_feature = F.average_pooling_2d(k,(y,x))
             km_feature = F.reshape(k,(num,c,))
         h = self.conv19(h)
