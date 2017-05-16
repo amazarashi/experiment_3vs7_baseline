@@ -28,7 +28,7 @@ if __name__ == "__main__":
     else_meta = meta[elseInd]
     trained_meta = meta[trainedInd]
     #prepare model
-    modelpath = "trained/model_40.pkl"
+    modelpath = "trained/model_265.pkl"
     model = darknet19.Darknet19(category_num=class_num-len(elseInd))
     model.to_gpu()
     serializers.load_npz(modelpath, model)
