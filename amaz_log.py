@@ -20,12 +20,15 @@ class Log(object):
         self.train_loss_path = "log/train_loss.txt"
         self.test_loss_path = "log/test_loss.txt"
         self.accuracy_path = "log/accuracy.txt"
+        self.else_accuracy_path = "log/else_accuracy.txt"
         self.loss_result_path = "log/loss.png"
         self.accuracy_result_path = "log/accuracy.png"
+        self.else_accuracy_result_path = "log/else_accuracy.png"
         self.init = self.init_log_env()
         self.train_loss_fp = open(self.train_loss_path, "w")
         self.test_loss_fp = open(self.test_loss_path, "w")
         self.accuracy_fp = open(self.accuracy_path, "w")
+        self.elseaccuracy_fp = open(self.else_accuracy_path, "w")
         self.init_log_file = self.init_log_file()
 
     def init_log_env(self):
@@ -39,6 +42,7 @@ class Log(object):
         self.train_loss_fp.write("epoch,train_loss\n")
         self.test_loss_fp.write("epoch,test_loss\n")
         self.accuracy_fp.write("epoch,accuracy\n")
+        self.elseaccuracy_fp.write("epoch,else,nonelse\n")
         return
 
     def finish_log(self):
@@ -69,6 +73,12 @@ class Log(object):
         self.plt_accuracy()
         return
 
+    def else_accuracy(self,epoch,else_accuracy,nonelse_accuracy):
+        self.elseaccuracy_fp.write("%d,%f\n" % (epoch, else_accuracy,nonelse_accuracy))
+        self.elseaccuracy_fp.flush()
+        self.plt_else_accuracy()
+        return
+
     def plt_loss(self):
         aixisAry,train_lossAry = self.load_plt_data(self.train_loss_path)
         aixisAry,test_lossAry = self.load_plt_data(self.test_loss_path)
@@ -91,6 +101,17 @@ class Log(object):
         plt.savefig(self.accuracy_result_path)
         return
 
+    def plt_else_accuracy(self):
+        aixisAry,elseAry,nonelseAry = self.load_elseplt_data(self.else_accuracy_result_path)
+        plt.clf()
+        plt.plot(aixisAry,elseAry, label='else')
+        plt.plot(aixisAry,nonelseAry, label='nonelse')
+        plt.title('else')
+        plt.legend()
+        plt.draw()
+        plt.savefig(self.else_accuracy_result_path)
+        return
+
     def load_plt_data(self,filepath):
         data = pd.read_csv(filepath, sep=",", header = None)
         data.columns = ["epoch","value"]
@@ -100,3 +121,14 @@ class Log(object):
         axissize = len(valuesAry)
         aixisAry = np.arange(axissize)
         return (aixisAry,valuesAry)
+
+    def load_elseplt_data(self,filepath):
+        data = pd.read_csv(filepath, sep=",", header = None)
+        data.columns = ["epoch","value"]
+        df = pd.DataFrame(data)
+        df.drop(df.index[0])
+        valuesAry1 = [value[1] for value in df[1:].values]
+        valuesAry2 = [value[2] for value in df[1:].values]
+        axissize = len(valuesAry)
+        aixisAry = np.arange(axissize)
+        return (aixisAry,valuesAry1,valuesAry2)

@@ -126,7 +126,7 @@ class Darknet19(chainer.Chain):
         loss = F.softmax_cross_entropy(y,t)
         return loss
 
-    def calc_kmeansloss(self,y,t,km_features,epoch,centroids):
+    def calc_kmeansloss(self,y,t,km_features,epoch,centroids,volatile=False):
         #label loss
         label_loss = F.softmax_cross_entropy(y,t)
 
@@ -143,11 +143,8 @@ class Darknet19(chainer.Chain):
             km_loss += min(mindis,distance)
         km_loss = km_loss/batch
         km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
-        km_loss_reverse = Variable(km_loss_reverse)
+        km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
         km_loss_reverse.to_gpu()
-
-        print(km_loss_reverse._volatile)
-        print(label_loss._volatile)
 
         alpha = 1.0
         loss = label_loss + alpha * km_loss_reverse

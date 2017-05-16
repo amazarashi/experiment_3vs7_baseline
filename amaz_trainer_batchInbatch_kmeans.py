@@ -140,7 +140,7 @@ class Trainer(object):
         sum_loss = 0
         total_data_length = len(train_x)
         batch_in_batch_size = self.batchinbatch
-        train_batch_devide = batch/batch_in_batch_size
+        train_batch_devide = batch / batch_in_batch_size
 
         progress = self.utility.create_progressbar(int(total_data_length/batch),desc='train',stride=1)
         train_data_yeilder = sampling.random_sampling(int(total_data_length/batch),batch,total_data_length)
@@ -201,7 +201,7 @@ class Trainer(object):
             t = self.datashaping.prepareinput(t,dtype=np.int32,volatile=True)
 
             y,km_feature = model(x,train=False,Kmeans=True)
-            loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids)
+            loss = model.calc_kmeansloss(y,t,km_feature,epoch,self.centroids,volatile=True)
             sum_loss += d_length * loss.data
             sum_accuracy += F.accuracy(y,t).data * d_length
             #categorical_accuracy = model.accuracy_of_each_category(y,t)
