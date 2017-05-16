@@ -44,15 +44,15 @@ if __name__ == "__main__":
         features = []
         print(labelname)
         print(len(ctgcalimgs))
-        #for i,img in enumerate(ctgcalimgs):
-        x = amaz_augumentation.Augumentation().Z_score(ctgcalimgs)
-        da_x = [dataaugumentation.test(xx) for xx in x]
-        xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
-        feature = model.getFeature(xin,train=False)
-        feature.to_cpu()
-        #features.append(feature.data)
+        for i,img in enumerate(ctgcalimgs):
+            x = amaz_augumentation.Augumentation().Z_score(ctgcalimgs)
+            da_x = [dataaugumentation.test(xx) for xx in x]
+            xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
+            feature = model.getFeature(xin,train=False)
+            feature.to_cpu()
+        features.append(feature.data[0])
         print(feature.shape)
-        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(feature.data))
+        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         maxdis_res.append([labelname,centroid,maxdis])
 
     #debug
