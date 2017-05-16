@@ -56,7 +56,7 @@ if __name__ == "__main__":
         print(features)
         print(len(features))
         print(type(features))
-        centroid,maxdis = amaz_kmeans.KmeansProcess.calc_categorical_centroid(np.array(features))
+        centroid,maxdis = amaz_kmeans.KmeansProcess().calc_categorical_centroid(np.array(features))
         print(centroid,maxdis)
         maxdis_res.append([labelname,centroid,maxdis])
 
