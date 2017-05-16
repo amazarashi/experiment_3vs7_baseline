@@ -64,8 +64,8 @@ class Trainer(object):
         if self.loadmodel is None:
             print('no model to load')
         else:
-            print('loading ' + self.load_model)
-            serializers.load_npz(load_model, self.model)
+            print('loading ' + self.loadmodel)
+            serializers.load_npz(self.loadmodel, self.model)
         self.check_gpu(self.gpu)
 
     # def init_dataset(self):
