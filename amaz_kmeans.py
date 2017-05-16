@@ -6,6 +6,12 @@ import six
 import pickle
 import numpy as np
 
+import amaz_cifar10_dl
+import darknet19
+import amaz_augumentation
+import amaz_augumentationCustom
+import amaz_datashaping
+
 from sklearn.cluster import KMeans
 
 class KmeansProcess(object):
