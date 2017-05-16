@@ -219,7 +219,7 @@ class Trainer(object):
         progressor = self.utility.create_progressbar(epoch,desc='epoch',stride=1,start=0)
         for i in progressor:
 
-            if i % 10 == 0:
+            if i % 10 == 9:
                 #update kmeans centroid
                 print("update kmeans centroid")
                 trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
