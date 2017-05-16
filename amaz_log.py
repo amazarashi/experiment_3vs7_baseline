@@ -124,7 +124,7 @@ class Log(object):
 
     def load_elseplt_data(self,filepath):
         data = pd.read_csv(filepath, sep=",", header = None)
-        data.columns = ["epoch","value"]
+        data.columns = ["epoch","else","non"]
         df = pd.DataFrame(data)
         df.drop(df.index[0])
         valuesAry1 = [value[1] for value in df[1:].values]
