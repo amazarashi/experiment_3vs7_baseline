@@ -103,7 +103,7 @@ class KmeansProcess(object):
         nonelse_judge = 0
         log = {}
         for em in else_meta:
-            labelname = tm
+            labelname = em
             ctgcalimgs = dataset[labelname]["test"]
             features = []
             for i,img in enumerate(ctgcalimgs):
