@@ -38,7 +38,7 @@ class KmeansProcess(object):
             disAry.append(dis)
 
         maxdis = np.max(np.array(disAry))
-        mindis = np.max(np.array(disAry))
+        mindis = np.min(np.array(disAry))
         return (centroid,maxdis,mindis)
 
     def calc_distance_2point(self,pt1,pt2):
