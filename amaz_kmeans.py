@@ -78,9 +78,6 @@ class KmeansProcess(object):
                 feature = model.getFeature(xin,train=False) #(batch,1024)
                 feature.to_cpu()
                 [features.append(f.data) for f in feature]
-                print(feature.shape)
-                print(len(features))
-                print(i)
             centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
             print(centroid,maxdis,mindis)
             maxdis_res.append([labelname,centroid,maxdis,mindis])
