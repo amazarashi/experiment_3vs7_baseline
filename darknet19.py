@@ -133,7 +133,7 @@ class Darknet19(chainer.Chain):
             tt[i][int(tind.data)] = 1
         tt = Variable(tt,volatile=volatile)
         tt.to_gpu()
-        label_loss = F.mean_squared_error(y,tt)
+        label_loss = F.mean_squared_error(y,tt)/batch
 
         features = km_features
         features.to_cpu()
