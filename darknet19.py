@@ -137,7 +137,7 @@ class Darknet19(chainer.Chain):
             print(tind.data)
             print(tt[i][int(tind.data)])
             print('**')
-            tt[0][i][int(tind.data)] = 1.0
+            tt[0][i][int(tind.data)] = 1
         print(tt)
         tt = Variable(tt,volatile=volatile)
         print("-------")
