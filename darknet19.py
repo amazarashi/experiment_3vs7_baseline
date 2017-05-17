@@ -131,11 +131,10 @@ class Darknet19(chainer.Chain):
         print(y.shape)
         tt = np.zeros(y.shape,dtype=np.float32)
         print(tt.shape)
-        print(tt.data)
+        print(tt)
         print(type(tt))
         for i,tind in enumerate(t):
-            print(tt[i])
-            tt[i][tind] = 1.
+            print(tind)
         tt = Variable(tt,volatile=volatile)
         print("-------")
         label_loss = F.mean_squared_error(y,tt)
