@@ -128,7 +128,7 @@ class Darknet19(chainer.Chain):
 
     def calc_kmeansloss(self,y,t,km_features,epoch,centroids,volatile=False):
         #label loss
-        label_loss = F.softmax_cross_entropy(y,t)
+        label_loss = F.mean_squared_error(y,t)
 
         features = km_features
         features.to_cpu()
@@ -140,6 +140,7 @@ class Darknet19(chainer.Chain):
             labelname,centroid,maxdis,mindis = centroidinfo
             feature = feature.data[0]
             distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
+            #if distance > maxdis:
             km_loss += min(mindis,distance)
         km_loss = km_loss/batch
         km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
@@ -151,8 +152,8 @@ class Darknet19(chainer.Chain):
         loss = Variable(loss.data)
         print("label loss:",label_loss.data)
         print("km loss:",alpha * km_loss_reverse.data)
-        #return loss
-        return Variable(label_loss.data)
+        return loss
+        #return Variable(label_loss.data)
 
     def accuracy_of_each_category(self,y,t):
         y.to_cpu()

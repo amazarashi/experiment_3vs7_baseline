@@ -93,12 +93,14 @@ class Trainer(object):
         else_i = 0
         pernum_train = 5000
         pernum_test = 1000
+        print("data initialization,,,,")
         for ind in range(len(meta)):
             category = meta[ind]
             categorical_data = self.dataset[category]
             train_data = categorical_data["train"]
             test_data = categorical_data["test"]
             if ind in elseIndices:
+                print("else:",category,else_i)
                 start_train = else_i * pernum_train
                 end_train = start_train + pernum_train
                 start_test = else_i * pernum_test
@@ -109,6 +111,7 @@ class Trainer(object):
                 else_test_y[start_test:end_test] = np.zeros(pernum_test,dtype=np.int32) + else_i
                 else_i += 1
             else:
+                print("train:",category,target_i)
                 start_train = target_i * pernum_train
                 end_train = start_train + pernum_train
                 start_test = target_i * pernum_test
