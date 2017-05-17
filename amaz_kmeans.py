@@ -85,6 +85,7 @@ class KmeansProcess(object):
                 print(len(features))
                 print(i)
             centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
+            print(centroid,maxdis,mindis)
             maxdis_res.append([labelname,centroid,maxdis,mindis])
         return (trained_meta,maxdis_res)
 
