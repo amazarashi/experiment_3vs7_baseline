@@ -64,7 +64,7 @@ class KmeansProcess(object):
         maxdis_res = []
         for tm in trained_meta:
             labelname = tm
-            ctgcalimgs = dataset[labelname]["train"][:300]
+            ctgcalimgs = dataset[labelname]["train"]
             print(labelname)
             print(len(ctgcalimgs))
             features = []
