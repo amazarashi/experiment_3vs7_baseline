@@ -79,8 +79,8 @@ class KmeansProcess(object):
                 xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
                 xin.to_gpu()
                 feature = model.getFeature(xin,train=False) #(batch,1024)
-                #feature.to_cpu()
-                #[features.append(f.data) for f in feature]
+                feature.to_cpu()
+                [features.append(f.data) for f in feature]
                 print(feature.shape)
                 print(i)
             centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
