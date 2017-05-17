@@ -130,6 +130,7 @@ class Darknet19(chainer.Chain):
         #label loss
         print(y.shape)
         print(t.shape)
+        print(type(t))
         print("-------")
         label_loss = F.mean_squared_error(y,t)
 
