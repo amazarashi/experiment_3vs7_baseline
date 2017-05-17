@@ -135,6 +135,7 @@ class Darknet19(chainer.Chain):
         print(tt)
         print(type(tt))
         for i,tind in enumerate(t):
+            print(tt.shape)
             print(tind.data)
             print(tt[0][i][int(tind.data)])
             print('**')
