@@ -47,7 +47,7 @@ class KmeansProcess(object):
         distance = np.sum((pt1 - pt2) ** 2 / 2)
         return distance
 
-    def updateCentroid(self,model,elseIndices,batch=500):
+    def updateCentroid(self,model,elseIndices,batch=300):
         class_num = 10
         allInd = np.arange(class_num)
         elseInd = np.array(elseIndices)
