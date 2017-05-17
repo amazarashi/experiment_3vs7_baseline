@@ -128,6 +128,8 @@ class Darknet19(chainer.Chain):
 
     def calc_kmeansloss(self,y,t,km_features,epoch,centroids,volatile=False):
         #label loss
+        print(y.shape)
+        print(t.shape)
         label_loss = F.mean_squared_error(y,t)
 
         features = km_features
