@@ -86,7 +86,7 @@ class KmeansProcess(object):
             maxdis_res.append([labelname,centroid,maxdis,mindis])
         return (trained_meta,maxdis_res)
 
-    def calcElseScore(self,model,elseIndices,maxdis_res,batch=16):
+    def calcElseScore(self,model,elseIndices,maxdis_res,batch=300):
         class_num = 10
         allInd = np.arange(class_num)
         elseInd = np.array(elseIndices)
@@ -109,18 +109,20 @@ class KmeansProcess(object):
             labelname = em
             ctgcalimgs = dataset[labelname]["test"]
             features = []
-            for i,img in enumerate(ctgcalimgs):
-                x = [amaz_augumentation.Augumentation().Z_score(img)]
+            itters = np.arange(0,len(ctgcalimgs),batch)
+            for i,start_ind in enumerate(itters):
+                imgs = ctgcalimgs[start_ind:min(start_ind+batch,len(ctgcalimgs))]
+                x = amaz_augumentation.Augumentation().Z_score(imgs)
                 da_x = [dataaugumentation.test(xx) for xx in x]
                 xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
                 feature = model.getFeature(xin,train=False)
                 feature.to_cpu()
-                feature = feature.data[0]
-                # for f in feature:
+                [features.append(f.data) for f in feature]
+            for f in features:
                 elseStatus = False
                 for res in maxdis_res:
                     labelname,centroid,maxdis,mindis = res
-                    distance = self.calc_distance_2point(centroid,feature)
+                    distance = self.calc_distance_2point(centroid,f)
                     if distance < maxdis:
                         elseStatus = True
                         nonelse_judge += 1
@@ -130,7 +132,7 @@ class KmeansProcess(object):
                             log[labelname] = 1
                 if elseStatus == False:
                     else_judge += 1
-                elseStatus = False
+                    elseStatus = False
 
         print("else:",else_judge)
         print("non:",nonelse_judge)
