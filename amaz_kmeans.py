@@ -32,10 +32,7 @@ class KmeansProcess(object):
         #sum of distance from centroid
         sum_distances = km_model.inertia_
 
-        disAry = []
-        for i,feature in enumerate(features):
-            dis = self.calc_distance_2point(centroid,feature)
-            disAry.append(dis)
+        disAry = [self.calc_distance_2point(centroid,feature) for feature in features]
 
         maxdis = np.max(np.array(disAry))
         mindis = np.min(np.array(disAry))
