@@ -128,14 +128,16 @@ class Darknet19(chainer.Chain):
 
     def calc_kmeansloss(self,y,t,km_features,epoch,centroids,volatile=False):
         #label loss
-        print(y.shape)
-        print(y.data)
+        yy = F.sigmoid(y)
+        print(yy.data)
         tt = np.zeros(y.shape,dtype=np.float32)
         print(tt.shape)
         print(tt)
         print(type(tt))
         for i,tind in enumerate(t):
             print(tind.data)
+            print(tt[0][i][int(tind.data)])
+            print('**')
             tt[0][i][int(tind.data)] = 1.0
         print(tt)
         tt = Variable(tt,volatile=volatile)
