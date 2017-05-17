@@ -73,7 +73,7 @@ class KmeansProcess(object):
             print(len(ctgcalimgs))
             itters = np.arange(0,len(ctgcalimgs),batch)
             for i,start_ind in enumerate(itters):
-                imgs = ctgcalimgs[start_ind,min(start_ind+batch,len(ctgcalimgs))]
+                imgs = ctgcalimgs[start_ind:min(start_ind+batch,len(ctgcalimgs))]
                 x = amaz_augumentation.Augumentation().Z_score(imgs)
                 da_x = [dataaugumentation.test(xx) for xx in x]
                 xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
