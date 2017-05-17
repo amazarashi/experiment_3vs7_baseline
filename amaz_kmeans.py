@@ -47,7 +47,7 @@ class KmeansProcess(object):
         distance = np.sum((pt1 - pt2) ** 2 / 2)
         return distance
 
-    def updateCentroid(self,model,elseIndices,batch=16):
+    def updateCentroid(self,model,elseIndices,batch=100):
         class_num = 10
         allInd = np.arange(class_num)
         elseInd = np.array(elseIndices)
@@ -68,9 +68,9 @@ class KmeansProcess(object):
         for tm in trained_meta:
             labelname = tm
             ctgcalimgs = dataset[labelname]["train"]
-            features = []
             print(labelname)
             print(len(ctgcalimgs))
+            features = []
             itters = np.arange(0,len(ctgcalimgs),batch)
             for i,start_ind in enumerate(itters):
                 imgs = ctgcalimgs[start_ind:min(start_ind+batch,len(ctgcalimgs))]
@@ -78,12 +78,11 @@ class KmeansProcess(object):
                 da_x = [dataaugumentation.test(xx) for xx in x]
                 xin = datashaping.prepareinput(da_x,dtype=np.float32,volatile=True)
                 xin.to_gpu()
-                feature = model.getFeature(xin,train=False)
+                feature = model.getFeature(xin,train=False) #(batch,1024)
                 feature.to_cpu()
-                print(feature.shape)
-            #     features.append(feature.data[0])
-            # centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
-            # maxdis_res.append([labelname,centroid,maxdis,mindis])
+                [features.append(f.data) for f in feature]
+            centroid,maxdis,mindis = self.calc_categorical_centroid(np.array(features))
+            maxdis_res.append([labelname,centroid,maxdis,mindis])
         return (trained_meta,maxdis_res)
 
     def calcElseScore(self,model,elseIndices,maxdis_res,batch=16):
