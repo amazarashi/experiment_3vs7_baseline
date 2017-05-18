@@ -146,18 +146,21 @@ class Darknet19(chainer.Chain):
             labelname,centroid,maxdis,mindis = centroidinfo
             feature = feature.data[0]
             distance = amaz_kmeans.KmeansProcess().calc_distance_2point(centroid,feature)
-            #if distance > maxdis:
-            km_loss += min(mindis,distance)
-        km_loss = km_loss/batch
-        km_loss_reverse = np.array(1/km_loss, dtype=np.float32)
-        km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
-        km_loss_reverse.to_gpu()
+            if distance < mindis:
+                km_loss += distance
+        km_loss = km_loss / batch
+        km_loss = np.array(km_loss, dtype=np.float32)
+        km_loss = Variable(km_loss,volatile=volatile)
+        km_loss.to_gpu()
+        # km_loss_reverse = np.array(1 / km_loss, dtype=np.float32)
+        # km_loss_reverse = Variable(km_loss_reverse,volatile=volatile)
+        # km_loss_reverse.to_gpu()
 
         alpha = 0.001
-        loss = label_loss + alpha * km_loss_reverse
+        loss = label_loss + alpha * km_loss
         loss = Variable(loss.data)
         print("label loss:",label_loss.data)
-        print("km loss:",alpha * km_loss_reverse.data)
+        print("km loss:",alpha * km_loss.data)
         return loss
         #return Variable(label_loss.data)
 
