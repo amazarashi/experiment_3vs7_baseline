@@ -161,6 +161,7 @@ class Darknet19(chainer.Chain):
         loss = Variable(loss.data)
         print("label loss:",label_loss.data)
         print("km loss:",alpha * km_loss.data)
+        print(loss.data)
         return loss
         #return Variable(label_loss.data)
 
