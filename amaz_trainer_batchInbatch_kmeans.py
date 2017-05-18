@@ -151,6 +151,12 @@ class Trainer(object):
         for i,indices in zip(progress,train_data_yeilder):
             model.cleargrads()
 
+            #if i % 10 == 0:
+            #update kmeans centroid
+            print("update kmeans centroid")
+            trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
+            #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
+
             for ii in six.moves.range(0, len(indices), batch_in_batch_size):
                 # print(ii)
                 x = train_x[indices[ii:ii + batch_in_batch_size]]
@@ -169,12 +175,6 @@ class Trainer(object):
                 sum_loss += loss.data * d_length
                 del loss,x,t
             optimizer.update()
-
-            #if i % 10 == 0:
-            #update kmeans centroid
-            print("update kmeans centroid")
-            trained_meta,self.centroids = amaz_kmeans.KmeansProcess().updateCentroid(model,self.elseIndices)
-            #trained_meta,maxdis_res:([[labelname,centroid,maxdis,mindis]])
 
         ## LOGGING ME
         print("train mean loss : ",float(sum_loss) / total_data_length)
