@@ -34,7 +34,7 @@ if __name__ == '__main__':
     elseIndices = [0,1,2]
     category_num = 10 - len(elseIndices)
     model = darknet19.Darknet19(category_num=category_num)
-    optimizer = amaz_optimizer.OptimizerDarknet(model,lr=0.00004,epoch=300,batch=64)
+    optimizer = amaz_optimizer.OptimizerDarknet(model,lr=0.0004,epoch=300,batch=64)
     dataaugumentation = amaz_augumentationCustom.Normalize224
     args['model'] = model
     args['optimizer'] = optimizer
